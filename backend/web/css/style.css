@@ -1,0 +1,19 @@
+.navigation__menu ul>li.navigation__active>a, .navigation__menu ul>li.active>a {
+    color: #edeff0;
+    font-weight: 700;
+}
+.navigation__menu ul>li.active>a:hover{
+    color: #edeff0;
+    background:transparent;
+}
+.nav > li > a{padding: 0;}
+.nav > li > a:hover{background: transparent;}
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}

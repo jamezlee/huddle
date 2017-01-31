@@ -37,14 +37,28 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<controller:\w+>/<id:\d+>' => '<controller>/view'
             ],
         ],
-        */
+        'as beforeRequest' => [  //if guest user access site so, redirect to login page.
+            'class' => 'yii\filters\AccessControl',
+            'rules' => [
+                [
+                    'actions' => ['login', 'error'],
+                    'allow' => true,
+                ],
+                [
+                    'allow' => true,
+                    'roles' => ['@'],
+                ],
+            ],
+        ],
+
     ],
     'params' => $params,
 ];
