@@ -15,8 +15,9 @@ class AppAsset extends AssetBundle
         'css/animate.min.css',
         'css/material-design-iconic-font.min.css',
         'css/jquery.mCustomScrollbar.min.css',
-        'css/app.css',
+
         'css/style.css',
+        'css/app.css',
         //'css/site.css',
 
         //'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
