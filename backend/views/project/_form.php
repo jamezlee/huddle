@@ -16,7 +16,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'projectclassification')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'projectdescription')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'projectdescription')->textarea(['rows' => '6']) ?>
+
+
+
 
     <?= $form->field($model, 'projectplanedstartdate')->textInput() ?>
 

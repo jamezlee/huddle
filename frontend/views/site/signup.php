@@ -21,9 +21,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
                 <?= $form->field($model, 'firstname')->label('First Name') ?>
-                <?= $form->field($model, 'lastname')->label('First Name')?>
+                <?= $form->field($model, 'lastname')->label('Last Name')?>
 
                 <?= $form->field($model, 'email')->label('Email') ?>
+
+                 <?= $form->field($model, 'jobtitle')->label('Job Title')?>
 
                 <?= $form->field($model, 'password')->passwordInput()->label('Password') ?>
 

@@ -12,14 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-    <?= $form->field($model, 'firstname')->label('First Name') ?>
-    <?= $form->field($model, 'lastname')->label('First Name')?>
 
+    <?= $form->field($model, 'firstname')->label('First Name')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'lastname')->label('Last Name')?>
+    <?= $form->field($model, 'jobtitle')->textInput()?>
+    <?= $form->field($model,'description')->textarea() ?>
     <?= $form->field($model, 'email')->label('Email') ?>
-
-    <?= $form->field($model, 'password_hash') ?>
-
+    <?= $form->field($model, 'username')->textInput() ?>
+    <?= $form->field($model, 'password_hash')->passwordInput() ?>
+    <?= $form->field($model, 'repeatnewpass')->passwordInput() ?>
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

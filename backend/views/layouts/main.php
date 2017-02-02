@@ -264,10 +264,7 @@ AppAsset::register($this);
         <?php
         $menuItems = [
             ['label' => '<i class="zmdi zmdi-view-dashboard"></i> Dashboard', 'url' => ['/site/index']],
-
-            ['label' => '<i class="zmdi zmdi-assignment-account"></i> Project',
-                'url' => ['/project/']
-            ],
+            ['label' => '<i class="zmdi zmdi-assignment-account"></i> Project',  'url' => ['project/']],
             ['label' => '<i class="zmdi zmdi-assignment-o"></i> Task', 'url' => ['/task/']],
             ['label' => '<i class="zmdi zmdi-account-o"></i> User', 'url' => ['/user/']],
         ];

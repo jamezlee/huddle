@@ -8,7 +8,10 @@ use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Expression;
+use yii\behaviors\TimestampBehavior;
 
+use yii\db\ActiveRecord;
 /**
  * UserController implements the CRUD actions for User model.
  */
@@ -51,6 +54,8 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -66,6 +71,7 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+           // $model->created_at = new Expression('NOW()');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -85,6 +91,8 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+           // $model->updated_at=new Expression('NOW()');
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

@@ -39,20 +39,14 @@ return [
             'errorAction' => 'site/error',
         ],
 
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '<controller:\w+>/<id:\d+>' => '<controller>/view'
-            ],
-        ],
-        'urlManagerFrontEnd' => [
-            'class' => 'yii\web\urlManager',
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            //'baseUrl' => '/backend/web',
-            'baseUrl' => '@web/../',
-        ],
+//        'urlManager' => [
+//            'enablePrettyUrl' => true,
+//            'showScriptName' => false,
+//            'rules' => [
+//                '<controller:\w+>/<id:\d+>' => '<controller>/view'
+//            ],
+//        ],
+
 
         'as beforeRequest' => [  //if guest user access site so, redirect to login page.
             'class' => 'yii\filters\AccessControl',

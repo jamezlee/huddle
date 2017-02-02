@@ -4,6 +4,7 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -42,6 +43,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+
         ];
     }
 
@@ -186,4 +188,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->created_at=new Expression('NOW()');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

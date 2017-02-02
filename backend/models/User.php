@@ -3,7 +3,10 @@
 namespace backend\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
+use yii\db\ActiveRecord;
+use yii\base\Configurable;
 /**
  * This is the model class for table "user".
  *
@@ -24,6 +27,7 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
+    public $repeatnewpass;
     /**
      * @inheritdoc
      */
@@ -32,6 +36,14 @@ class User extends \yii\db\ActiveRecord
         return 'user';
     }
 
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -42,17 +54,21 @@ class User extends \yii\db\ActiveRecord
             ['username', 'required'],
             ['firstname', 'required'],
             ['lastname', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique','on' => 'insert', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
-
+            ['email', 'unique', 'on' => 'insert', 'message' => 'This email address has already been taken.'],
+            ['jobtitle','required'],
+            ['description','string'],
+            ['jobtitle','string','min' => 2,'max'=>50],
             ['password_hash', 'required'],
             ['password_hash', 'string', 'min' => 6],
+            ['repeatnewpass', 'string', 'min' => 6],
+            ['repeatnewpass', 'compare', 'compareAttribute'=>'password_hash', 'skipOnEmpty' => true, 'message'=>"Passwords don't match"],
         ];
     }
 
@@ -63,13 +79,14 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'firstname' => 'Firstname',
-            'lastname' => 'Lastname',
-            'jobtitle' => 'Jobtitle',
+            'firstname' => 'First name',
+            'lastname' => 'Last name',
+            'jobtitle' => 'Job title',
             'username' => 'Username',
             'description' => 'Description',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password',
+            'repeatnewpass'=>'Repeat New Password',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
             'role' => 'Role',
@@ -80,11 +97,11 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-    * Finds user by password reset token
-    *
-    * @param string $token password reset token
-    * @return static|null
-    */
+     * Finds user by password reset token
+     *
+     * @param string $token password reset token
+     * @return static|null
+     */
     public static function findByPasswordResetToken($token)
     {
         if (!static::isPasswordResetTokenValid($token)) {
@@ -148,7 +165,10 @@ class User extends \yii\db\ActiveRecord
     {
         return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
-
+    public function getPassword($password)
+    {
+        return Yii::$app->getSecurity()->decryptByPassword($password,$this->password_hash);
+    }
     /**
      * Generates password hash from password and sets it to the model
      *
@@ -183,14 +203,31 @@ class User extends \yii\db\ActiveRecord
         $this->password_reset_token = null;
     }
 
+    /**
+     * @param before saving the data it will hash the password and insert the time or update time if updated
+     * @return hash password and date and time
+     */
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            $this->setPassword($this->password_hash);
+
+            if ($this->isNewRecord) {
+                $this->created_at = new Expression('NOW()');
+                $this->setPassword($this->password_hash);
+            }else{
+                if($this->repeatnewpass==$this->password_hash){
+                    $this->setPassword($this->repeatnewpass);
+                }
+                $this->updated_at = new Expression('NOW()');
+            }
 
             return true;
         } else {
             return false;
         }
     }
+
+
+    
+
 }
