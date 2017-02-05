@@ -15,7 +15,8 @@ class AppAsset extends AssetBundle
         'css/animate.min.css',
         'css/material-design-iconic-font.min.css',
         'css/jquery.mCustomScrollbar.min.css',
-
+        //eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+        'js/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
         'css/style.css',
         'css/app.css',
         //'css/site.css',
@@ -24,18 +25,19 @@ class AppAsset extends AssetBundle
 
     ];
     public $js = [
+        //'js/jquery/dist/jquery.min.js',
         'js/tinymce/jquery.tinymce.min.js',
         'js/tinymce/tinymce.min.js',
-        //'js/jquery/dist/jquery.min.js',
+
         'js/bootstrap/dist/js/bootstrap.min.js',
         'js/page-loader.min.js',
-        'js/app.min.js',
+        'js/moment/min/moment.min.js',
         'js/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
         'js/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js',
+        'js/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+        'js/app.min.js',
         'js/inc/actions.js',
         'js/inc/functions.js',
-
-
     ];
     public $depends = [
         'yii\web\YiiAsset',

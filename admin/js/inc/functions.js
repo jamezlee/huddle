@@ -238,93 +238,9 @@ $(document).ready(function(){
     }
 
 
-    /*------------------------------
-        Color picker
-    -------------------------------*/
-    if ($('.color-picker')[0]) {
-	     $('.color-picker').each(function(){
-            var colorOutput = $(this).find('.color-picker__value');
-            var colorPickerTarget = $(this).find('.color-picker__target');
-
-            colorPickerTarget.farbtastic(colorOutput);
-        });
-    }
 
 
-    /*---------------------------------
-        Bootstrap date time picker
-    ----------------------------------*/
-    //Date Time Picker
-    if ($('.date-time-picker')[0]) {
-	     $('.date-time-picker').datetimepicker({
-           icons: {
-               time: 'zmdi zmdi-time',
-               date: 'zmdi zmdi-calendar',
-               up: 'zmdi zmdi-chevron-up',
-               down: 'zmdi zmdi-chevron-down',
-               previous: 'zmdi zmdi-chevron-left',
-               next: 'zmdi zmdi-chevron-right',
-               today: 'zmdi zmdi-screenshot',
-               clear: 'zmdi zmdi-trash',
-               close: 'zmdi zmdi-times'
-           }
-       });
-    }
 
-    //Time
-    if ($('.time-picker')[0]) {
-    	$('.time-picker').datetimepicker({
-    	    format: 'LT',
-            icons: {
-                time: 'zmdi zmdi-time',
-                date: 'zmdi zmdi-calendar',
-                up: 'zmdi zmdi-chevron-up',
-                down: 'zmdi zmdi-chevron-down',
-                previous: 'zmdi zmdi-chevron-left',
-                next: 'zmdi zmdi-chevron-right',
-                today: 'zmdi zmdi-screenshot',
-                clear: 'zmdi zmdi-trash',
-                close: 'zmdi zmdi-times'
-            }
-    	});
-    }
-
-    //Date
-    if ($('.date-picker')[0]) {
-    	$('.date-picker').datetimepicker({
-    	    format: 'DD/MM/YYYY',
-            icons: {
-                time: 'zmdi zmdi-time',
-                date: 'zmdi zmdi-calendar',
-                up: 'zmdi zmdi-chevron-up',
-                down: 'zmdi zmdi-chevron-down',
-                previous: 'zmdi zmdi-chevron-left',
-                next: 'zmdi zmdi-chevron-right',
-                today: 'zmdi zmdi-screenshot',
-                clear: 'zmdi zmdi-trash',
-                close: 'zmdi zmdi-times'
-            }
-    	});
-    }
-
-    //Inline
-    if($('.datetime-picker-inline')[0]) {
-        $('.datetime-picker-inline').datetimepicker({
-            inline: true,
-            sideBySide: true,
-            icons: {
-                time: 'zmdi zmdi-time',
-                date: 'zmdi zmdi-calendar',
-                up: 'zmdi zmdi-chevron-up',
-                down: 'zmdi zmdi-chevron-down',
-                previous: 'zmdi zmdi-chevron-left',
-                next: 'zmdi zmdi-chevron-right',
-                today: 'zmdi zmdi-screenshot',
-                clear: 'zmdi zmdi-trash',
-                close: 'zmdi zmdi-times'
-            }
-        });
-    }
 
 
     /*------------------------------
@@ -394,17 +310,4 @@ $(document).ready(function(){
     if($('.textarea-autosize')[0]) {
         autosize($('.textarea-autosize'));
     }
-});
-tinymce.init({
-    selector: 'textarea',
-    theme:"modern",
-    height: "",
-    menubar: false,
-    plugins: [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table contextmenu paste code'
-    ],
-    toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
-    content_css: '//www.tinymce.com/css/codepen.min.css'
 });

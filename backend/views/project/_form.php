@@ -2,43 +2,120 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use dosamigos\ckeditor\CKEditor;
+use yii\helpers\ArrayHelper;
+use backend\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Project */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
 
 <div class="project-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <div class="card__body">
+        <div class="row">
 
-    <?= $form->field($model, 'projectname')->textInput(['maxlength' => true]) ?>
+            <?php $form = ActiveForm::begin(); ?>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'projectname')->textInput(['maxlength' => true,'class'=>'form-control']) ?>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'projectclassification')->textInput(['maxlength' => true]) ?>
+                </div>
+            </div>
 
-    <?= $form->field($model, 'projectclassification')->textInput(['maxlength' => true]) ?>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'projectdescription')->widget(CKEditor::className(), [
+                        'options' => ['rows' => 6],
+                        'preset' => 'basic'
+                    ]) ?>
 
-    <?= $form->field($model, 'projectdescription')->textarea(['rows' => '6']) ?>
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'projectplanedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'projectplanedenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'projectactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'projectactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
 
 
 
 
-    <?= $form->field($model, 'projectplanedstartdate')->textInput() ?>
 
-    <?= $form->field($model, 'projectplanedenddate')->textInput() ?>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'userid')->dropDownList(
+                        ArrayHelper::map(User::find()->all(), 'id', 'username'),
+                        ['prompt'=>'Select Owner']
 
-    <?= $form->field($model, 'projectactualstartdate')->textInput() ?>
+                    ) ?>
+                </div>
+            </div>
 
-    <?= $form->field($model, 'projectactualenddate')->textInput() ?>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'projectstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
+                </div>
+            </div>
 
-    <?= $form->field($model, 'createdate')->textInput() ?>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                </div>
+            </div>
 
-    <?= $form->field($model, 'userid')->textInput() ?>
 
-    <?= $form->field($model, 'projectstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
+<!--            --><?//= $form->field($model, 'createdate')->textInput() ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+
+
+
+
+            <?php ActiveForm::end(); ?>
+
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>

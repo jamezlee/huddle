@@ -139,6 +139,14 @@ class User extends \yii\db\ActiveRecord
         return $this->getPrimaryKey();
     }
 
+    public function getProjects()
+    {
+        if (!static::isPasswordResetTokenValid($token)) {
+            return null;
+        }
+        return $this->hasMany(Project::className(), ['userid' => 'id']);
+    }
+
     /**
      * @inheritdoc
      */
