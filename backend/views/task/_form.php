@@ -68,7 +68,7 @@ use backend\models\Project;
         </div>
     </div>
 
-    
+
     <?= $form->field($model, 'taskstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
 
     <div class="form-group">

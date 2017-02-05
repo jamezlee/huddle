@@ -131,6 +131,14 @@ class SiteController extends Controller
         }
     }
 
+    public function actionUserhome()
+    {
+        return $this->render('userhome');
+    }
+    public function actionAdminhome()
+    {
+        return $this->render('adminhome');
+    }
     /**
      * Displays about page.
      *
