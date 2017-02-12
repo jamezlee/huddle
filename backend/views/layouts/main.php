@@ -62,6 +62,7 @@ AppAsset::register($this);
                     <a href="profile-about.html"><i class="zmdi zmdi-account"></i> View Profile</a>
                      </li>'
                    .'<li>'
+
                     .Html::a('<i class="zmdi zmdi-time-restore"></i> Logout ('. Yii::$app->user->identity->username . ')', ['site/logout'], ['data' => ['method' => 'post']])
                    .'</li>'
 

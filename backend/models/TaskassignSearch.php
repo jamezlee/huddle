@@ -19,6 +19,7 @@ class TaskassignSearch extends Taskassign
     {
         return [
             [['assignID', 'userid', 'taskid'], 'integer'],
+            [['taskdescription'], 'safe'],
         ];
     }
 
@@ -62,6 +63,8 @@ class TaskassignSearch extends Taskassign
             'userid' => $this->userid,
             'taskid' => $this->taskid,
         ]);
+
+       // $query->andFilterWhere(['like', 'taskdescription', $this->taskdescription]);
 
         return $dataProvider;
     }

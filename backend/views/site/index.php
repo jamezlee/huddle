@@ -1,53 +1,139 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'My Yii Application';
+use yii\helpers\Html;
+
+use backend\models\Project;
+use backend\models\Taskassign;
+use yii\grid\GridView;
+use yii\data\ActiveDataProvider;
+
+$this->title = 'Huddle';
+
+
 ?>
-<div class="site-index">
+<div class="content__wrapper">
+    <div class="content__title">
+        <h1>Dashboard</h1>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
     </div>
+    <div class="card">
+        <div class="card__body">
+            <div class="row">
+                <div class="col-md-3">
+                    <p>Project no Completed</p>
+                    <?php
+                    $inproProject = Project::findAll(['projectstatus'=>'Inprocess']);
+                    $completeProject  = Project::findAll(['projectstatus'=>'Completed']);
+                    $totalProject = count($inproProject) + count($completeProject);
+                    $percent=(count($inproProject)/$totalProject)*100;
+                    ?>
 
-    <div class="body-content">
+                    <div class="chart-pie" data-percent="<?=  $percent ?>" data-pie-size="230">
+                        <span class="chart-pie__value"><?= $percent ?></span>
+                    </div>
 
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+                </div>
+                <div class="col-md-9">
+                    <?
+                    $dataProvider = new ActiveDataProvider([
+                        'query' => Project::find()->where(['projectstatus' => 'Inprocess']),
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                    ]);
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+
+                   echo GridView::widget([
+
+                        'dataProvider' => $dataProvider,
+                        'emptyText' => '',
+                      //  'filterModel' => $searchModel,
+                        'columns' => [
+                            ['class' => 'yii\grid\SerialColumn'],
+                            [
+                                'attribute'=>'projectname',
+
+                               // 'value'=>'Project.projectname'
+                            ],
+
+                            //'projectid',
+
+
+                            // 'projectclassification',
+                            //'projectdescription:html',
+                            //'projectplanedstartdate',
+                            //'projectplanedenddate',
+                            'projectactualstartdate',
+                            'projectactualenddate',
+                            // 'createdate',
+                            // 'userid',
+                            'projectstatus',
+
+                           // ['class' => 'yii\grid\ActionColumn'],
+                        ],
+                        'summary'=>'',
+                    ]); ?>
+                </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="row">
+               <div class="col-md-12">
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                   <?= GridView::widget([
+                       'dataProvider' => $dataTaskProvider,
+                       //  'filterModel' => $searchModel,
+                       'columns' => [
+                           ['class' => 'yii\grid\SerialColumn'],
+                           //'taskid',
+                           'projectid',
+                           'taskname',
+                           'taskdescription',
+                           'taskplanedstartdate',
+                           // 'taskplanedenddate',
+                           // 'taskactualstartdate',
+                           // 'taskactualenddate',
+                           // 'taskstatus',
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+                           ['class' => 'yii\grid\ActionColumn'],
+                       ],
+                       'summary'=>'Task',
+                   ]); ?>
+
+               </div>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+            <div class="row">
+                <div class="col-md-12">
+                <h2>Task Assigned <? echo Yii::$app->user->identity->getId(); ?></h2>
+                    <?
+                    $dataTaskassignProvider = new ActiveDataProvider([
+                        'query' => Taskassign::find()->where(['userid' =>  Yii::$app->user->identity->getId()]),
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                    ]);
+                    echo GridView::widget([
+                        'dataProvider' => $dataTaskassignProvider,
+                        //  'filterModel' => $searchModel,
+                        'columns' => [
+                            ['class' => 'yii\grid\SerialColumn'],
+                            'assignID',
+                            'userid',
+                            'taskid',
+                            'taskdescription',
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+                            ['class' => 'yii\grid\ActionColumn'],
+                        ],
+                        'summary'=>'Task',
+                    ]); ?>
+
+                </div>
             </div>
+
+
         </div>
 
+
+
+
     </div>
+
+
 </div>

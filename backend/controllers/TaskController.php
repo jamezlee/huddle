@@ -4,6 +4,9 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Task;
+use backend\models\Taskassign;
+use backend\models\User;
+
 use backend\models\TaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -64,8 +67,12 @@ class TaskController extends Controller
     public function actionCreate()
     {
         $model = new Task();
+//        $modelAssign = new Taskassign();
+//        $modelUser = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            $model->taskid=$modelAssign->taskid;
+//            $modelUser->id=$modelAssign->userid;
             return $this->redirect(['view', 'id' => $model->taskid]);
         } else {
             return $this->render('create', [

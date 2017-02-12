@@ -10,6 +10,8 @@ use Yii;
  * @property integer $assignID
  * @property integer $userid
  * @property integer $taskid
+ * @property string $taskdescription
+
  */
 class Taskassign extends \yii\db\ActiveRecord
 {
@@ -29,6 +31,8 @@ class Taskassign extends \yii\db\ActiveRecord
         return [
             [['userid', 'taskid'], 'required'],
             [['userid', 'taskid'], 'integer'],
+            [['userid', 'taskid', 'taskdescription'], 'required'],
+            [['taskdescription'], 'string', 'max' => 255],
         ];
     }
 

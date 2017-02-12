@@ -7,6 +7,8 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Nav;
+use yii\helpers\Url;
+
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -45,14 +47,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         $menuItems[] =
                             '<li class="top-menu__profile dropdown">'
-                            .Html::a('Create an account', [ '../site/signup'])
-                            .'</a>'
+                           .' <a href="../index.php?r=site%2Fsignup">Sign Up</a>'
                             . '</li>';
                         $menuItems[] =
                         '<li class="top-menu__profile dropdown">'
-                        .Html::a('Forgot password?', [ '../site/request-password-reset'])
 
-                        .'</a>'
+                        .'<a href="../index.php?r=%2Fsite%2Frequest-password-reset">Forgot password?</a>'
+                       // .'<a href= " 'Yii::$app->urlManagerFrontEnd->createUrl("index.php?r=site%2Frequest-password-reset");'" >Forgot password?</a>'
+                      // .Html::a('Forgot password?', [  Yii::$app->urlManagerFrontEnd->createUrl('/site/request-password-reset')])
+
+                       // .Html::a('Forgot password?', [ '/site/request-password-reset'])
+
+
                         . '</li>';
                         echo Nav::widget([
                             'encodeLabels'=>false,
@@ -66,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="login__block__body">
+                <?php  ?>
                 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                 <div class="form-group form-group--float form-group--centered form-group--centered">

@@ -12,7 +12,7 @@ use backend\models\Project;
 
 <div class="task-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin();$model->sea ?>
 
     <?= $form->field($model, 'projectid')->textInput() ?>
     <?= $form->field($model, 'projectid')->dropDownList(
@@ -67,7 +67,6 @@ use backend\models\Project;
             </div>
         </div>
     </div>
-
 
     <?= $form->field($model, 'taskstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
 

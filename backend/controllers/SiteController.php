@@ -3,9 +3,16 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use backend\models\Project;
+use backend\models\ProjectSearch;
+use backend\models\Task;
+use backend\models\TaskSearch;
+use backend\models\Taskassign;
+use backend\models\TaskassignSearch;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+
 
 /**
  * Site controller
@@ -54,13 +61,27 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays dashboard.
      *
-     * @return string
+     * @return in process project, task and actvity
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new ProjectSearch();
+        $searchTaskModel = new TaskSearch();
+        $searchTaskassignModel = new TaskassignSearch();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataTaskProvider = $searchTaskModel->search(Yii::$app->request->queryParams);
+        $dataTaskassignProvider = $searchTaskassignModel->search(Yii::$app->request->queryParams);
+
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'dataTaskProvider' => $dataTaskProvider,
+            'dataTaskassignProvider' => $dataTaskassignProvider,
+        ]);
     }
 
     /**

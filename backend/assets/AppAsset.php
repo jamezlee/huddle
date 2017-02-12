@@ -19,6 +19,8 @@ class AppAsset extends AssetBundle
         'js/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
         'css/style.css',
         'css/app.css',
+        'css/app-1.css',
+        //'less/inc/chart.less',
         //'css/site.css',
 
         //'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css',
@@ -37,6 +39,7 @@ class AppAsset extends AssetBundle
         'js/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         'js/app.min.js',
         'js/inc/actions.js',
+        'js/easy-pie-charts.js',
         'js/inc/functions.js',
     ];
     public $depends = [
