@@ -18,8 +18,8 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['taskid', 'projectid'], 'integer'],
-            [['taskname', 'taskdescription', 'taskplanedstartdate', 'taskplanedenddate', 'taskactualstartdate', 'taskactualenddate', 'taskstatus'], 'safe'],
+            [['assignID', 'userid', 'activityid'], 'integer'],
+            [['taskname', 'taskdescription', 'taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate', 'taskstatus', 'taskfile', 'comments'], 'safe'],
         ];
     }
 
@@ -59,17 +59,21 @@ class TaskSearch extends Task
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'taskid' => $this->taskid,
-            'projectid' => $this->projectid,
-            'taskplanedstartdate' => $this->taskplanedstartdate,
-            'taskplanedenddate' => $this->taskplanedenddate,
+            'assignID' => $this->assignID,
+            'userid' => $this->userid,
+            'activityid' => $this->activityid,
+            'taskplannedstartdate' => $this->taskplannedstartdate,
+            'taskplannedenddate' => $this->taskplannedenddate,
             'taskactualstartdate' => $this->taskactualstartdate,
             'taskactualenddate' => $this->taskactualenddate,
+            'creationdate' => $this->creationdate,
         ]);
 
         $query->andFilterWhere(['like', 'taskname', $this->taskname])
             ->andFilterWhere(['like', 'taskdescription', $this->taskdescription])
-            ->andFilterWhere(['like', 'taskstatus', $this->taskstatus]);
+            ->andFilterWhere(['like', 'taskstatus', $this->taskstatus])
+            ->andFilterWhere(['like', 'taskfile', $this->taskfile])
+            ->andFilterWhere(['like', 'comments', $this->comments]);
 
         return $dataProvider;
     }

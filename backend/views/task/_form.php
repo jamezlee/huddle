@@ -3,77 +3,130 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
+use backend\models\User;
+use backend\models\Activity;
+use dosamigos\ckeditor\CKEditor;
 
-use backend\models\Project;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Task */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
 <div class="task-form">
+    <div class="card__body">
+        <div class="card">
+        <div class="row">
 
-    <?php $form = ActiveForm::begin();$model->sea ?>
+            <?php $form = ActiveForm::begin(); ?>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'activityid')->dropDownList(
+                        ArrayHelper::map(Activity::find()->all(), 'activityid', 'activityname'),
+                        ['prompt'=>'Select Activity']
 
-    <?= $form->field($model, 'projectid')->textInput() ?>
-    <?= $form->field($model, 'projectid')->dropDownList(
-            ArrayHelper::map(Project::find()->all(), 'projectid', 'projectname'),
-            ['prompt'=>'Select Project']
-
-    ) ?>
-
-    <?= $form->field($model, 'taskname')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'taskdescription')->textInput(['maxlength' => true]) ?>
-
-
-
-    <div class="col-sm-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-            <div class="form-group">
-                <?= $form->field($model, 'taskplanedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
-                <i class="form-group__bar"></i>
+                    )?>
+                </div>
             </div>
+
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'userid')->dropDownList(
+                        ArrayHelper::map(User::find()->all(), 'id', 'username'),
+                        ['prompt'=>'Select Owner']
+
+                    )->label("Task Owner:") ?>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'taskname')->textInput(['maxlength' => true]) ?>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'taskdescription')->widget(CKEditor::className(), [
+                        'options' => ['rows' => 6],
+                        'preset' => 'basic'
+                    ]) ?>
+
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'taskplannedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'taskplannedenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'taskactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                    <div class="form-group">
+                        <?= $form->field($model, 'taskactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <i class="form-group__bar"></i>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'taskstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'comments')->widget(CKEditor::className(), [
+                        'options' => ['rows' => 6],
+                        'preset' => 'basic'
+                    ]) ?>
+
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'taskfile')->fileInput(); ?>
+                </div>
+            </div>
+
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                </div>
+            </div>
+
+            <?php ActiveForm::end(); ?>
+</div>
         </div>
     </div>
 
-    <div class="col-sm-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-            <div class="form-group">
-                <?= $form->field($model, 'taskplanedenddate')->textInput(['class'=>'form-control date-picker']) ?>
-                <i class="form-group__bar"></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-            <div class="form-group">
-                <?= $form->field($model, 'taskactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
-                <i class="form-group__bar"></i>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-sm-6">
-        <div class="input-group">
-            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-            <div class="form-group">
-                <?= $form->field($model, 'taskactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
-                <i class="form-group__bar"></i>
-            </div>
-        </div>
-    </div>
-
-    <?= $form->field($model, 'taskstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>

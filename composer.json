@@ -21,7 +21,8 @@
         "2amigos/yii2-date-time-picker-widget": "*",
         "2amigos/yii2-date-picker-widget": "~1.0",
         "2amigos/yii2-ckeditor-widget": "^2.0",
-        "dektrium/yii2-user": "^0.9.12"
+        "dektrium/yii2-user": "^0.9.12",
+        "phpoffice/phpexcel": "dev-develop"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

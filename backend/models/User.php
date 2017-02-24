@@ -20,10 +20,14 @@ use yii\base\Configurable;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
- * @property integer $role
+ * @property integer $userrole
  * @property integer $status
  * @property integer $created_at
- * @property integer $updated_at
+ * @property integer
+ *
+ * @property Project[] $projects
+ * @property Task[] $tasks
+
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -89,7 +93,7 @@ class User extends \yii\db\ActiveRecord
             'repeatnewpass'=>'Repeat New Password',
             'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
-            'role' => 'Role',
+            'userrole' => 'Role',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -147,6 +151,12 @@ class User extends \yii\db\ActiveRecord
         return $this->hasMany(Project::className(), ['userid' => 'id']);
     }
 
+    public function getTasks()
+    {
+        return $this->auth_key;
+        return $this->hasMany(Task::className(), ['userid' => 'id']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -162,6 +172,7 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->getAuthKey() === $authKey;
     }
+
 
     /**
      * Validates password

@@ -18,8 +18,9 @@ class AppAsset extends AssetBundle
         //eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         'js/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css',
         'css/style.css',
+        //'css/app-1.min.css',
         'css/app.css',
-        'css/app-1.css',
+
         //'less/inc/chart.less',
         //'css/site.css',
 

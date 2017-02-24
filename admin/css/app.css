@@ -7536,7 +7536,7 @@ button.close {
   background-color: #3e4b53;
 }
 .form-group {
-  position: relative;
+  position:inherit;
 }
 .form-group:not(.form-group--float) {
   margin-bottom: 32px;

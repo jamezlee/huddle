@@ -36,25 +36,36 @@ $this->title = $model->username;
                 <small>Job Title: <?= $model->jobtitle; ?></small>
             </h2>
         </header>
-        <div class="card profile">
-            <div class="profile__info">
-                <h3>Description</h3>
-                <p><?= $model->description ?></p>
-                <h3>Joined since</h3>
-                <p><?= $model->created_at ?></p>
-                <h3>Last Update</h3>
-                <p><?= $model->updated_at ?></p>
-                <p>
-                    <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-default btn-block']) ?>
-<!--                    --><?//= Html::a('Delete', ['delete', 'id' => $model->id], [
-//                        'class' => 'btn btn-danger',
-//                        'data' => [
-//                            'confirm' => 'Are you sure you want to delete this item?',
-//                            'method' => 'post',
-//                        ],
-//                    ]) ?>
-                </p>
+        <div class="card ">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="profile__info">
+                        <h3>Description</h3>
+                        <p><?= $model->description ?></p>
+                        <h3>Joined since</h3>
+                        <p><?= $model->created_at ?></p>
+                        <h3>Last Update</h3>
+                        <p><?= $model->updated_at ?></p>
+                        <p>
+                            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-default btn-block']) ?>
+                            <!--                    --><?//= Html::a('Delete', ['delete', 'id' => $model->id], [
+                            //                        'class' => 'btn btn-danger',
+                            //                        'data' => [
+                            //                            'confirm' => 'Are you sure you want to delete this item?',
+                            //                            'method' => 'post',
+                            //                        ],
+                            //                    ]) ?>
+                        </p>
+                    </div>
+
+
+                </div>
+
+
+
             </div>
+
 
         </div>
 

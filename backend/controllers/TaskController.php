@@ -4,13 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Task;
-use backend\models\Taskassign;
-use backend\models\User;
-
 use backend\models\TaskSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * TaskController implements the CRUD actions for Task model.
@@ -23,6 +21,25 @@ class TaskController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update','index','view'],
+                'rules' => [
+                    // deny all POST requests
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['@'],
+                    ],
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    // everything else is denied
+                ],
+            ],
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -40,7 +57,6 @@ class TaskController extends Controller
     {
         $searchModel = new TaskSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -54,6 +70,7 @@ class TaskController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -67,13 +84,14 @@ class TaskController extends Controller
     public function actionCreate()
     {
         $model = new Task();
-//        $modelAssign = new Taskassign();
-//        $modelUser = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-//            $model->taskid=$modelAssign->taskid;
-//            $modelUser->id=$modelAssign->userid;
-            return $this->redirect(['view', 'id' => $model->taskid]);
+            $model->taskfile=UploadedFile::getInstance($model,'taskfile');
+            $model->taskfile->saveAs('upload/'. $model->taskfile);
+            $model->taskfile = 'upload/'. $model->taskfile;
+            $model->save();
+
+            return $this->redirect(['view', 'id' => $model->assignID]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -92,7 +110,11 @@ class TaskController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->taskid]);
+            $model->taskfile=UploadedFile::getInstance($model,'taskfile');
+            $model->taskfile->saveAs('upload/'. $model->taskfile);
+            $model->taskfile = 'upload/'. $model->taskfile;
+            $model->save();
+            return $this->redirect(['view', 'id' => $model->assignID]);
         } else {
             return $this->render('update', [
                 'model' => $model,

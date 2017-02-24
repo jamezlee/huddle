@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Task */
 
-$this->title = 'Update Task: ' . $model->taskid;
+$this->title = 'Update Task: ' . $model->assignID;
 $this->params['breadcrumbs'][] = ['label' => 'Tasks', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->taskid, 'url' => ['view', 'id' => $model->taskid]];
+$this->params['breadcrumbs'][] = ['label' => $model->assignID, 'url' => ['view', 'id' => $model->assignID]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="task-update">

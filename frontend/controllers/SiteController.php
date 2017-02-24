@@ -12,6 +12,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use backend\models\User;
+use backend\models\UserSearch;
 
 /**
  * Site controller
@@ -132,14 +134,15 @@ class SiteController extends Controller
         }
     }
 
-    public function actionUserhome()
-    {
-        return $this->render('userhome');
-    }
-    public function actionAdminhome()
-    {
-        return $this->render('adminhome');
-    }
+//    public function actionConfirm()
+//    {
+//      //  Yii::$app->user->
+//        return $this->render('confirm');
+//    }
+//    public function actionAdminhome()
+//    {
+//        return $this->render('adminhome');
+//    }
     /**
      * Displays about page.
      *
@@ -160,16 +163,52 @@ class SiteController extends Controller
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    //return $this->goHome();
-                    return $this->redirect(Yii::$app->urlManagerBackend->createUrl(['site/index']));
+                $text =  \Yii::$app->urlManager->createAbsoluteUrl('site/confirm');
+                $email = \Yii::$app->mailer->compose()
+                    ->setTo($user->email)
+                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+                    ->setSubject('Signup Confirmation')
+                    ->setHtmlBody("Click this link ".\yii\helpers\Html::a('confirm',
+                            Yii::$app->urlManager->createAbsoluteUrl(['site/confirm','id'=>$user->id,'key'=>$user->auth_key])))
+                    //->setHtmlBody('Please click this <a href="'.$text.'/?id='.$user->id.'&'.'key='.$user->auth_key.'">link</a> to activate your account \r\n')
+                    ->send();
+                if($email){
+                    Yii::$app->getSession()->setFlash('success','Check Your email!');
                 }
+                else{
+                    Yii::$app->getSession()->setFlash('warning','Failed, contact Admin!');
+                }
+
+                return $this->goHome();
+
             }
         }
 
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+    public function actionConfirm($id, $key)
+    {
+        //$user = new User();
+       // $user::find
+//        $userid=Yii::$app->request->get($id);
+//        $userkey=Yii::$app->request->get($key);
+
+        $user = \backend\models\User::find()->where(['id'=>$id, 'auth_key'=>$key, 'status'=>0])->one();
+        //echo $id;
+        if(!empty($user)){
+            $user->status=10;
+            $user->save();
+            Yii::$app->getSession()->setFlash('success','Success! ');
+
+        }
+        else{
+            Yii::$app->getSession()->setFlash('warning','Failed!'. $id);
+
+        }
+        return $this->render('confirm');
+        //return $this->goHome();
     }
 
     /**

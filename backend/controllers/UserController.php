@@ -23,6 +23,24 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update','index','view'],
+                'rules' => [
+                    // deny all POST requests
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['@'],
+                    ],
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    // everything else is denied
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -113,6 +131,10 @@ class UserController extends Controller
 
         return $this->redirect(['index']);
     }
+
+
+
+
 
     /**
      * Finds the User model based on its primary key value.

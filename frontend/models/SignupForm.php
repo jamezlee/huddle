@@ -13,6 +13,7 @@ class SignupForm extends Model
     public $firstname;
     public $lastname;
     public $jobtitle;
+    public $userrole;
     public $username;
     public $email;
     public $password;
@@ -30,6 +31,7 @@ class SignupForm extends Model
             ['firstname', 'required'],
             ['lastname', 'required'],
             ['jobtitle', 'required'],
+           // ['userrole', 'required'],
 
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -60,8 +62,11 @@ class SignupForm extends Model
         $user->username = $this->username;
         $user->lastname = $this->lastname;
         $user->firstname = $this->firstname;
+        $user->userrole="User";
         $user->jobtitle=$this->jobtitle;
         $user->email = $this->email;
+        $user->generateAuthKey();
+        $user->status=0;
         //$user->created_at=new CDbExpression('NOW()');
 
         $user->setPassword($this->password);

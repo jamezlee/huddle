@@ -144,6 +144,7 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->getAuthKey() === $authKey;
     }
 
+
     /**
      * Validates password
      *

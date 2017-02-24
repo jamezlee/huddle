@@ -15,23 +15,31 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'taskid') ?>
+    <?= $form->field($model, 'assignID') ?>
 
-    <?= $form->field($model, 'projectid') ?>
+    <?= $form->field($model, 'userid') ?>
+
+    <?= $form->field($model, 'activityid') ?>
 
     <?= $form->field($model, 'taskname') ?>
 
     <?= $form->field($model, 'taskdescription') ?>
 
-    <?= $form->field($model, 'taskplanedstartdate') ?>
+    <?php // echo $form->field($model, 'taskplannedstartdate') ?>
 
-    <?php // echo $form->field($model, 'taskplanedenddate') ?>
+    <?php // echo $form->field($model, 'taskplannedenddate') ?>
 
     <?php // echo $form->field($model, 'taskactualstartdate') ?>
 
     <?php // echo $form->field($model, 'taskactualenddate') ?>
 
+    <?php // echo $form->field($model, 'creationdate') ?>
+
     <?php // echo $form->field($model, 'taskstatus') ?>
+
+    <?php // echo $form->field($model, 'taskfile') ?>
+
+    <?php // echo $form->field($model, 'comments') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

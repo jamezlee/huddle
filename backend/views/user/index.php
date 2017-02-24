@@ -41,7 +41,7 @@ $this->title = 'List of Users';
                 // 'password_hash',
                 // 'password_reset_token',
                 'email:email',
-                // 'role',
+                 'userrole',
                 // 'status',
                 // 'created_at',
                 // 'updated_at',

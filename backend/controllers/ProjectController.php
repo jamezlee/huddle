@@ -2,13 +2,18 @@
 
 namespace backend\controllers;
 
+//use GuzzleHttp\Psr7\UploadedFile;
 use Yii;
 use backend\models\Project;
 use backend\models\ProjectSearch;
+use backend\models\Activity;
+use backend\models\ActivitySearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * ProjectController implements the CRUD actions for Project model.
  */
@@ -20,6 +25,24 @@ class ProjectController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['create', 'update','index','view'],
+                'rules' => [
+                    // deny all POST requests
+                    [
+                        'allow' => true,
+                        'verbs' => ['POST'],
+                        'roles' => ['@'],
+                    ],
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    // everything else is denied
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,11 +59,15 @@ class ProjectController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProjectSearch();
+        $searchActivityModel = new ActivitySearch();
+
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataActivityProvider = $searchActivityModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'dataActivityProvider' => $dataActivityProvider,
         ]);
     }
 
@@ -51,8 +78,13 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
+
+        $searchActivityModel = new ActivitySearch();
+        $dataActivityProvider = $searchActivityModel->search(Yii::$app->request->queryParams);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'dataActivityProvider' => $dataActivityProvider,
         ]);
     }
 
@@ -63,15 +95,31 @@ class ProjectController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Project();
+       // if(Yii::$app->user->can('admin')){
 
+
+        $model = new Project();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->projectfile=UploadedFile::getInstance($model,'projectfile');
+            $model->projectfile->saveAs('upload/'. $model->projectfile);
+            $model->projectfile = 'upload/'. $model->projectfile;
+
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->projectid]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+
+//        }
+//        else{
+//
+//            throw new ForbiddenHttpException;
+//        }
+
     }
 
     /**
@@ -85,6 +133,12 @@ class ProjectController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->projectfile=UploadedFile::getInstance($model,'projectfile');
+            $model->projectfile->saveAs('upload/'. $model->projectfile);
+            $model->projectfile = 'upload/'. $model->projectfile;
+
+            $model->save();
             return $this->redirect(['view', 'id' => $model->projectid]);
         } else {
             return $this->render('update', [

@@ -11,39 +11,19 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'modules' => [
-        'user' => [
-            // following line will restrict access to admin controller from frontend application
-            'as frontend' => 'dektrium\user\filters\FrontendFilter',
-        ],
-    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityCookie' => [
-                'name'     => '_frontendIdentity',
-                'path'     => '/',
-                'httpOnly' => true,
-            ],
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => false,
+            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
-            'name' => 'FRONTENDSESSID',
-            'cookieParams' => [
-                'httpOnly' => true,
-                'path'     => '/',
-            ],
+            // this is the name of the session cookie used for login on the frontend
+            'name' => 'advanced-frontend',
         ],
-//        'user' => [
-//            'identityClass' => 'common\models\User',
-//            'enableAutoLogin' => true,
-//            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
-//        ],
-//        'session' => [
-//            // this is the name of the session cookie used for login on the frontend
-//            'name' => 'advanced-frontend',
-//        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

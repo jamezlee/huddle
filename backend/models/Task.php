@@ -3,21 +3,27 @@
 namespace backend\models;
 
 use Yii;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "task".
  *
- * @property integer $taskid
- * @property integer $projectid
+ * @property integer $assignID
+ * @property integer $userid
+ * @property integer $activityid
  * @property string $taskname
  * @property string $taskdescription
- * @property string $taskplanedstartdate
- * @property string $taskplanedenddate
+ * @property string $taskplannedstartdate
+ * @property string $taskplannedenddate
  * @property string $taskactualstartdate
  * @property string $taskactualenddate
+ * @property string $creationdate
  * @property string $taskstatus
+ * @property string $taskfile
+ * @property string $comments
  *
- * @property Project $project
+ * @property Activity $activity
+ * @property User $user
  */
 class Task extends \yii\db\ActiveRecord
 {
@@ -35,12 +41,13 @@ class Task extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['projectid', 'taskname', 'taskdescription', 'taskplanedstartdate', 'taskplanedenddate', 'taskactualstartdate', 'taskactualenddate', 'taskstatus'], 'required'],
-            [['projectid'], 'integer'],
-            [['taskplanedstartdate', 'taskplanedenddate', 'taskactualstartdate', 'taskactualenddate'], 'safe'],
-            [['taskstatus'], 'string'],
-            [['taskname', 'taskdescription'], 'string', 'max' => 255],
-            [['projectid'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['projectid' => 'projectid']],
+            [['userid', 'activityid', 'taskname', 'taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'taskstatus'], 'required'],
+            [['userid', 'activityid'], 'integer'],
+            [['taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate'], 'safe'],
+            [['taskstatus', 'comments'], 'string'],
+            [['taskname', 'taskdescription', 'taskfile'], 'string', 'max' => 255],
+            [['activityid'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activityid' => 'activityid']],
+            [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userid' => 'id']],
         ];
     }
 
@@ -49,24 +56,51 @@ class Task extends \yii\db\ActiveRecord
      */
     public function attributeLabels()
     {
+
         return [
-            'taskid' => 'Taskid',
-            'projectid' => 'Projectid',
-            'taskname' => 'Taskname',
-            'taskdescription' => 'Taskdescription',
-            'taskplanedstartdate' => 'Taskplanedstartdate',
-            'taskplanedenddate' => 'Taskplanedenddate',
-            'taskactualstartdate' => 'Taskactualstartdate',
-            'taskactualenddate' => 'Taskactualenddate',
-            'taskstatus' => 'Taskstatus',
+            'assignID' => 'Task ID',
+            'userid' => 'User id',
+            'activityid' => 'Task assign to which Activity',
+            'taskname' => 'Task name',
+            'taskdescription' => 'Task description',
+            'taskplannedstartdate' => 'Task planned start date',
+            'taskplannedenddate' => 'Task planned end date',
+            'taskactualstartdate' => 'Task actualstartdate',
+            'taskactualenddate' => 'Task actual end date',
+            'creationdate' => 'Creation date',
+            'taskstatus' => 'Task status',
+            'taskfile' => 'Task file',
+            'comments' => 'Comments',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProject()
+    public function getActivity()
     {
-        return $this->hasOne(Project::className(), ['projectid' => 'projectid']);
+        return $this->hasOne(Activity::className(), ['activityid' => 'activityid']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'userid']);
+    }
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->creationdate = new Expression('NOW()');
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

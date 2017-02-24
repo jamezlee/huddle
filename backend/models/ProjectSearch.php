@@ -15,11 +15,16 @@ class ProjectSearch extends Project
     /**
      * @inheritdoc
      */
+
+    public $globalProjectSearch;
+
+
+
     public function rules()
     {
         return [
             [['projectid', 'userid'], 'integer'],
-            [['projectname', 'projectclassification', 'projectdescription', 'projectplanedstartdate', 'projectplanedenddate', 'projectactualstartdate', 'projectactualenddate', 'createdate', 'projectstatus'], 'safe'],
+            [['globalProjectSearch','projectname', 'projectclassification', 'projectdescription', 'projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'creationdate', 'projectstatus', 'projectfile', 'comments'], 'safe'],
         ];
     }
 
@@ -56,22 +61,28 @@ class ProjectSearch extends Project
             // $query->where('0=1');
             return $dataProvider;
         }
+        $query->joinWith('user');
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'projectid' => $this->projectid,
-            'projectplanedstartdate' => $this->projectplanedstartdate,
-            'projectplanedenddate' => $this->projectplanedenddate,
-            'projectactualstartdate' => $this->projectactualstartdate,
-            'projectactualenddate' => $this->projectactualenddate,
-            'createdate' => $this->createdate,
-            'userid' => $this->userid,
-        ]);
+//        $query->andFilterWhere([
+//            'projectid' => $this->projectid,
+//            'projectplannedstartdate' => $this->projectplannedstartdate,
+//            'projectplannedenddate' => $this->projectplannedenddate,
+//            'projectactualstartdate' => $this->projectactualstartdate,
+//            'projectactualenddate' => $this->projectactualenddate,
+//            'creationdate' => $this->creationdate,
+//            'userid' => $this->userid,
+//        ]);
 
-        $query->andFilterWhere(['like', 'projectname', $this->projectname])
-            ->andFilterWhere(['like', 'projectclassification', $this->projectclassification])
-            ->andFilterWhere(['like', 'projectdescription', $this->projectdescription])
-            ->andFilterWhere(['like', 'projectstatus', $this->projectstatus]);
+
+
+        $query->orFilterWhere(['like', 'projectname', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectclassification', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectdescription', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectstatus', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectfile', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'user.username', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'comments', $this->globalProjectSearch]);
 
         return $dataProvider;
     }

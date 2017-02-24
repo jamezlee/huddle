@@ -12,39 +12,20 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [
-        'user' => [
-            // following line will restrict access to profile, recovery, registration and settings controllers from backend
-            'as backend' => 'dektrium\user\filters\BackendFilter',
-        ],
-    ],
+    'modules' => [],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
-            'identityCookie' => [
-                'name'     => '_backendIdentity',
-                'path'     => '/admin',
-                'httpOnly' => true,
-            ],
+            'identityClass' => 'common\models\User',
+            'enableAutoLogin' => false,
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
-            'name' => 'BACKENDSESSID',
-            'cookieParams' => [
-                'httpOnly' => true,
-                'path'     => '/admin',
-            ],
+            // this is the name of the session cookie used for login on the backend
+            'name' => 'advanced-backend',
         ],
-//        'user' => [
-//            'identityClass' => 'common\models\User',
-//            'enableAutoLogin' => true,
-//            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
-//        ],
-//        'session' => [
-//            // this is the name of the session cookie used for login on the backend
-//            'name' => 'advanced-backend',
-//        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
@@ -61,11 +42,11 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => false,
             'showScriptName' => true,
-            'rules' => [
+//            'rules' => [
 //                '<controller:\w+>/<id:\d+>' => '<controller>/view',
 //                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 //                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            ],
+//            ],
         ],
         'urlManagerFrontEnd' => [
             'class' => 'yii\web\urlManager',
@@ -86,6 +67,10 @@ return [
                 'encryption' => 'tls',
             ],
         ],
+//        'authManager' => [
+//            'class' => 'yii\rbac\DbManager',
+//            'defaultRoles'=>['guest'],
+//        ],
 
         'as beforeRequest' => [  //if guest user access site so, redirect to login page.
             'class' => 'yii\filters\AccessControl',

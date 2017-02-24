@@ -13,21 +13,25 @@ use yii\db\ActiveRecord;
  * @property string $projectname
  * @property string $projectclassification
  * @property string $projectdescription
- * @property string $projectplanedstartdate
- * @property string $projectplanedenddate
+ * @property string $projectplannedenddate
  * @property string $projectactualstartdate
  * @property string $projectactualenddate
- * @property string $createdate
+ * @property string $creationdate
  * @property integer $userid
  * @property string $projectstatus
- *
- * @property Task[] $tasks
+ * @property string $projectfile
+ * @property string $comments
+ * @property Activity $activity
+ * @property User $user
  */
 class Project extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
+
+    //public $file;
+
     public static function tableName()
     {
         return 'project';
@@ -39,12 +43,13 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['projectname', 'projectclassification', 'projectdescription', 'projectplanedstartdate', 'projectplanedenddate', 'projectactualstartdate', 'projectactualenddate', 'userid', 'projectstatus'], 'required'],
-            [['projectplanedstartdate', 'projectplanedenddate', 'projectactualstartdate', 'projectactualenddate', 'createdate'], 'safe'],
+            [[ 'projectname', 'projectclassification', 'projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'userid', 'projectstatus'], 'required'],
+            [['projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'creationdate','projectfile'], 'safe'],
+            //[['projectfile'],'file'],
             [['userid'], 'integer'],
-            [['projectstatus'], 'string'],
+            [['projectstatus', 'comments'], 'string'],
             [['projectname', 'projectclassification'], 'string', 'max' => 100],
-            [['projectdescription'], 'string', 'max' => 255],
+            [['projectdescription', 'projectfile'], 'string', 'max' => 255],
             [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userid' => 'id']],
 
         ];
@@ -56,17 +61,19 @@ class Project extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'projectid' => 'Project id',
+            'projectid' => 'Projectid',
             'projectname' => 'Project name',
             'projectclassification' => 'Project classification',
             'projectdescription' => 'Project description',
-            'projectplanedstartdate' => 'Project planed start date',
-            'projectplanedenddate' => 'Project planed end date',
+            'projectplannedstartdate' => 'Project planned start date',
+            'projectplannedenddate' => 'Project planned end date',
             'projectactualstartdate' => 'Project actual start date',
             'projectactualenddate' => 'Project actual end date',
-            'createdate' => 'Create date',
-            'userid' => 'Project Owner',
+            'creationdate' => 'Creation date',
+            'userid' => 'Owner',
             'projectstatus' => 'Project status',
+            'projectfile' => 'Project file',
+            'comments' => 'Comments',
         ];
     }
     /**
@@ -79,9 +86,9 @@ class Project extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getActivity()
     {
-        return $this->hasMany(Task::className(), ['projectid' => 'projectid']);
+        return $this->hasOne(Activity::className(), ['projectid' => 'projectid']);
     }
 
 
@@ -89,7 +96,7 @@ class Project extends \yii\db\ActiveRecord
     {
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
-                $this->createdate = new Expression('NOW()');
+                $this->creationdate = new Expression('NOW()');
             }
             return true;
         } else {

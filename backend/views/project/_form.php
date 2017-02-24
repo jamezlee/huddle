@@ -44,7 +44,7 @@ use backend\models\User;
                 <div class="input-group">
                     <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                     <div class="form-group">
-                        <?= $form->field($model, 'projectplanedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <?= $form->field($model, 'projectplannedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
                         <i class="form-group__bar"></i>
                     </div>
                 </div>
@@ -53,7 +53,7 @@ use backend\models\User;
                 <div class="input-group">
                     <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                     <div class="form-group">
-                        <?= $form->field($model, 'projectplanedenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                        <?= $form->field($model, 'projectplannedenddate')->textInput(['class'=>'form-control date-picker']) ?>
                         <i class="form-group__bar"></i>
                     </div>
                 </div>
@@ -97,6 +97,12 @@ use backend\models\User;
             <div class="col-sm-12">
                 <div class="form-group">
                     <?= $form->field($model, 'projectstatus')->dropDownList([ 'Inprocess' => 'Inprocess', 'Completed' => 'Completed', 'Canceled' => 'Canceled', ], ['prompt' => '']) ?>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <?= $form->field($model, 'projectfile')->fileInput(); ?>
                 </div>
             </div>
 

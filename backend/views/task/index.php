@@ -24,15 +24,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'taskid',
-            'projectid',
+            'assignID',
+            'userid',
+            'activityid',
             'taskname',
             'taskdescription',
-            'taskplanedstartdate',
-            // 'taskplanedenddate',
+            // 'taskplannedstartdate',
+            // 'taskplannedenddate',
             // 'taskactualstartdate',
             // 'taskactualenddate',
+            // 'creationdate',
             // 'taskstatus',
+            // 'taskfile',
+            // 'comments:ntext',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

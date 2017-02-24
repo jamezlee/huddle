@@ -6,7 +6,7 @@
 use yii\helpers\Html;
 
 use backend\models\Project;
-use backend\models\Taskassign;
+use backend\models\Task;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 
@@ -23,12 +23,16 @@ $this->title = 'Huddle';
         <div class="card__body">
             <div class="row">
                 <div class="col-md-3">
-                    <p>Project no Completed</p>
+                    <p>Inprocess Project</p>
                     <?php
                     $inproProject = Project::findAll(['projectstatus'=>'Inprocess']);
                     $completeProject  = Project::findAll(['projectstatus'=>'Completed']);
                     $totalProject = count($inproProject) + count($completeProject);
-                    $percent=(count($inproProject)/$totalProject)*100;
+                    if($totalProject<=0){
+                        $percent=0;
+                    }else{
+                        $percent=(count($inproProject)/$totalProject)*100;
+                    }
                     ?>
 
                     <div class="chart-pie" data-percent="<?=  $percent ?>" data-pie-size="230">
@@ -62,7 +66,7 @@ $this->title = 'Huddle';
 
                             // 'projectclassification',
                             //'projectdescription:html',
-                            //'projectplanedstartdate',
+                            //'projectplannedstartdate',
                             //'projectplanedenddate',
                             'projectactualstartdate',
                             'projectactualenddate',
@@ -80,19 +84,21 @@ $this->title = 'Huddle';
                <div class="col-md-12">
 
                    <?= GridView::widget([
-                       'dataProvider' => $dataTaskProvider,
+                       'dataProvider' => $dataActivityProvider,
                        //  'filterModel' => $searchModel,
                        'columns' => [
                            ['class' => 'yii\grid\SerialColumn'],
-                           //'taskid',
-                           'projectid',
-                           'taskname',
-                           'taskdescription',
-                           'taskplanedstartdate',
-                           // 'taskplanedenddate',
-                           // 'taskactualstartdate',
-                           // 'taskactualenddate',
-                           // 'taskstatus',
+//                           'activityid',
+//                           'projectid',
+                           'activityname',
+                           'activitydescription',
+//                           'activityplannedstartdate',
+//                           'activityplannedenddate',
+//                           'activityactualstartdate',
+//                           'activityactualenddate',
+                           'creationdate',
+                           'activitystatus',
+                           'comments',
 
                            ['class' => 'yii\grid\ActionColumn'],
                        ],
@@ -106,17 +112,17 @@ $this->title = 'Huddle';
                 <h2>Task Assigned <? echo Yii::$app->user->identity->getId(); ?></h2>
                     <?
                     $dataTaskassignProvider = new ActiveDataProvider([
-                        'query' => Taskassign::find()->where(['userid' =>  Yii::$app->user->identity->getId()]),
+                        'query' => Task::find()->where(['userid' =>  Yii::$app->user->identity->getId()]),
 
                     ]);
                     echo GridView::widget([
-                        'dataProvider' => $dataTaskassignProvider,
+                        'dataProvider' => $dataTaskProvider,
                         //  'filterModel' => $searchModel,
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
                             'assignID',
                             'userid',
-                            'taskid',
+                            //'taskid',
                             'taskdescription',
 
                             ['class' => 'yii\grid\ActionColumn'],
