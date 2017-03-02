@@ -20,22 +20,47 @@ use dosamigos\ckeditor\CKEditor;
             <?php $form = ActiveForm::begin(); ?>
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'activityid')->dropDownList(
-                        ArrayHelper::map(Activity::find()->all(), 'activityid', 'activityname'),
-                        ['prompt'=>'Select Activity']
+                    <?
+                    $userid=Yii::$app->user->identity->getId();
+                    $userCurrent=User::findOne(['id'=>$userid]);
 
-                    )?>
+                    if($userCurrent->userrole=="System Admin" || $userCurrent->userrole=="Project Owner") {
+                        echo $form->field($model, 'activityid')->dropDownList(
+                            ArrayHelper::map(Activity::find()->all(), 'activityid', 'activityname'),
+                            ['prompt' => 'Select Activity']
+
+                        );
+                    }else{
+                       $currentActivity= Activity::findOne(['activityid'=>$model->activityid]);
+                        echo'<h5>Activity related:</h5>' .$currentActivity->activityname;
+
+                    }
+
+
+                    ?>
                 </div>
             </div>
 
 
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'userid')->dropDownList(
+                    <?
+
+                    if($userCurrent->userrole=="System Admin" || $userCurrent->userrole=="Project Owner"){
+
+                    echo $form->field($model, 'userid')->dropDownList(
                         ArrayHelper::map(User::find()->all(), 'id', 'username'),
                         ['prompt'=>'Select Owner']
 
-                    )->label("Task Owner:") ?>
+                    )->label("Task Owner:") ;
+
+                    }else{
+                        $userOwner=User::findOne(['id'=>$model->userid]);
+                        echo "Task Owner: ". $userOwner->username;
+                    }
+
+                    ?>
+
                 </div>
             </div>
 
@@ -47,10 +72,16 @@ use dosamigos\ckeditor\CKEditor;
 
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'taskdescription')->widget(CKEditor::className(), [
-                        'options' => ['rows' => 6],
-                        'preset' => 'basic'
-                    ]) ?>
+                    <?
+                    if($userCurrent->userrole=="System Admin" || $userCurrent->userrole=="Project Owner") {
+                        echo $form->field($model, 'taskdescription')->widget(CKEditor::className(), [
+                            'options' => ['rows' => 6],
+                            'preset' => 'basic'
+                        ]);
+                    }else{
+                        echo'<h5>Task description</h5>'.$model->taskdescription ;
+                    }
+                    ?>
 
                 </div>
             </div>
@@ -112,7 +143,10 @@ use dosamigos\ckeditor\CKEditor;
 
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'taskfile')->fileInput(); ?>
+                    <?php if($model->taskfile!=null){
+                        echo '<p>'. $model->taskfile. '</p>';
+                    } ?>
+                    <?= $form->field($model, 'newfile')->fileInput()->label("Upload file"); ?>
                 </div>
             </div>
 

@@ -30,7 +30,7 @@ class Project extends \yii\db\ActiveRecord
      * @inheritdoc
      */
 
-    //public $file;
+    public $newfile;
 
     public static function tableName()
     {
@@ -44,8 +44,8 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [[ 'projectname', 'projectclassification', 'projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'userid', 'projectstatus'], 'required'],
-            [['projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'creationdate','projectfile'], 'safe'],
-            //[['projectfile'],'file'],
+            [['projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'creationdate','projectfile','newfile'], 'safe'],
+            [['newfile'],'file'],
             [['userid'], 'integer'],
             [['projectstatus', 'comments'], 'string'],
             [['projectname', 'projectclassification'], 'string', 'max' => 100],
@@ -97,6 +97,7 @@ class Project extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->creationdate = new Expression('NOW()');
+
             }
             return true;
         } else {

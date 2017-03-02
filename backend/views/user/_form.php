@@ -19,6 +19,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model,'description')->textarea() ?>
     <?= $form->field($model, 'email')->label('Email') ?>
     <?= $form->field($model, 'username')->textInput() ?>
+    <?= $form->field($model, 'userrole')->dropDownList([ 'System Admin' => 'System Admin', 'Project Owner' => 'Project Owner', 'User' => 'User', ], ['prompt' => '']) ?>
+
     <?= $form->field($model, 'password_hash')->passwordInput() ?>
     <?= $form->field($model, 'repeatnewpass')->passwordInput() ?>
     <div class="form-group">

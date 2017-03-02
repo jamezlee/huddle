@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\ArrayHelper;
 use backend\models\User;
-
+use \yii\helpers\FileHelper;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Project */
 /* @var $form yii\widgets\ActiveForm */
@@ -83,16 +83,24 @@ use backend\models\User;
 
 
 
-
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <?= $form->field($model, 'userid')->dropDownList(
+            <?php
+            $user = User::findOne(['id'=>Yii::$app->user->identity->getId()]);
+            if ($user->userrole=="System Admin"){
+                echo'<div class="col-sm-12">
+                <div class="form-group">'
+                    . $form->field($model, 'userid')->dropDownList(
                         ArrayHelper::map(User::find()->all(), 'id', 'username'),
                         ['prompt'=>'Select Owner']
 
-                    ) ?>
-                </div>
-            </div>
+                    ).
+                    ' </div>
+            </div>';
+
+
+            }
+
+            ?>
+
 
             <div class="col-sm-12">
                 <div class="form-group">
@@ -102,7 +110,10 @@ use backend\models\User;
 
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'projectfile')->fileInput(); ?>
+                    <?php if($model->projectfile!=null){
+                        echo '<p>'. $model->projectfile. '</p>';
+                    } ?>
+                    <?= $form->field($model, 'newfile')->fileInput()->label("Upload file"); ?>
                 </div>
             </div>
 

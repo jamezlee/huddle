@@ -85,10 +85,14 @@ class TaskController extends Controller
     {
         $model = new Task();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->taskfile=UploadedFile::getInstance($model,'taskfile');
-            $model->taskfile->saveAs('upload/'. $model->taskfile);
-            $model->taskfile = 'upload/'. $model->taskfile;
+        if ($model->load(Yii::$app->request->post())) {
+
+
+            if(!empty($model->newfile)&& $model->newfile->size !== 0){
+                $model->newfile->saveAs('upload/' . $model->newfile);
+                $model->taskfile = $model->newfile->name;
+
+            }
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->assignID]);
@@ -108,11 +112,17 @@ class TaskController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $current_image = $model->taskfile;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->taskfile=UploadedFile::getInstance($model,'taskfile');
-            $model->taskfile->saveAs('upload/'. $model->taskfile);
-            $model->taskfile = 'upload/'. $model->taskfile;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->newfile = UploadedFile::getInstance($model, 'newfile');
+            if(!empty($model->newfile)&& $model->newfile->size !== 0){
+                $model->newfile->saveAs('upload/' .$model->newfile);
+                $model->taskfile = $model->newfile->name;
+
+            }else{
+                $model->taskfile=$current_image;
+            }
             $model->save();
             return $this->redirect(['view', 'id' => $model->assignID]);
         } else {

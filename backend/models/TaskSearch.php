@@ -15,11 +15,12 @@ class TaskSearch extends Task
     /**
      * @inheritdoc
      */
+    public $globalTaskSearch;
     public function rules()
     {
         return [
             [['assignID', 'userid', 'activityid'], 'integer'],
-            [['taskname', 'taskdescription', 'taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate', 'taskstatus', 'taskfile', 'comments'], 'safe'],
+            [['globalTaskSearch','taskname', 'taskdescription', 'taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate', 'taskstatus', 'taskfile', 'comments'], 'safe'],
         ];
     }
 
@@ -56,24 +57,28 @@ class TaskSearch extends Task
             // $query->where('0=1');
             return $dataProvider;
         }
-
+       // $query->joinWith('activity');
+        $query->joinWith('user');
         // grid filtering conditions
-        $query->andFilterWhere([
-            'assignID' => $this->assignID,
-            'userid' => $this->userid,
-            'activityid' => $this->activityid,
-            'taskplannedstartdate' => $this->taskplannedstartdate,
-            'taskplannedenddate' => $this->taskplannedenddate,
-            'taskactualstartdate' => $this->taskactualstartdate,
-            'taskactualenddate' => $this->taskactualenddate,
-            'creationdate' => $this->creationdate,
-        ]);
+//        $query->andFilterWhere([
+//            'assignID' => $this->assignID,
+//            'userid' => $this->userid,
+//            'activityid' => $this->activityid,
+//            'taskplannedstartdate' => $this->taskplannedstartdate,
+//            'taskplannedenddate' => $this->taskplannedenddate,
+//            'taskactualstartdate' => $this->taskactualstartdate,
+//            'taskactualenddate' => $this->taskactualenddate,
+//            'creationdate' => $this->creationdate,
+//        ]);
 
-        $query->andFilterWhere(['like', 'taskname', $this->taskname])
-            ->andFilterWhere(['like', 'taskdescription', $this->taskdescription])
-            ->andFilterWhere(['like', 'taskstatus', $this->taskstatus])
-            ->andFilterWhere(['like', 'taskfile', $this->taskfile])
-            ->andFilterWhere(['like', 'comments', $this->comments]);
+        $query->orFilterWhere(['like', 'taskname', $this->globalTaskSearch])
+            ->orFilterWhere(['like', 'taskdescription', $this->globalTaskSearch])
+            ->orFilterWhere(['like', 'taskstatus', $this->globalTaskSearch])
+            ->orFilterWhere(['like', 'taskfile', $this->globalTaskSearch])
+           // ->orFilterWhere(['like', 'activity.activityname', $this->$globalTaskSearch])
+            ->orFilterWhere(['like', 'user.username', $this->globalTaskSearch])
+           // ->orFilterWhere(['like', 'project.projectname', $this->$globalTaskSearch])
+            ->orFilterWhere(['like', 'comments', $this->globalTaskSearch]);
 
         return $dataProvider;
     }

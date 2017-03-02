@@ -2,44 +2,120 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use backend\models\Project;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Activity */
 
-$this->title = $model->activityid;
+$this->title = $model->activityname;
 $this->params['breadcrumbs'][] = ['label' => 'Activities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="content">
+        <div class="content-wrapper">
+            <header class="content__header">
+                <h1>Activity: <?= $model->activityname ?></h1>
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->activityid], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->activityid], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+                <? $project = Project::findOne(['projectid'=>$model->projectid]);?>
+                <h2>Project related: <?=$project->projectname ?> </h2>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'activityid',
-            'projectid',
-            'activityname',
-            'activitydescription',
-            'activityplannedstartdate',
-            'activityplannedenddate',
-            'activityactualstartdate',
-            'activityactualenddate',
-            'creationdate',
-            'activitystatus',
-            'comments',
-        ],
-    ]) ?>
+            </header>
+            <div class="card">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>
+                                    <?= Html::a('Update', ['update', 'id' => $model->activityid], ['class' => 'btn btn-primary']) ?>
+                                    <?= Html::a('Delete', ['delete', 'id' => $model->activityid], [
+                                        'class' => 'btn btn-danger',
+                                        'data' => [
+                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'method' => 'post',
+                                        ],
+                                    ]) ?>
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3>Activity description:</h3>
+                                <p><?= $model->activitydescription ?></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Activity planned start date:</h3>
+                                <p><?= $model->activityplannedstartdate ?></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Activity planned end date:</h3>
+                                <p><?= $model->activityplannedenddate ?></p>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Activity actual start date:</h3>
+                                <p><?= $model->activityactualstartdate ?></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Activity actual end date:</h3>
+                                <p><?= $model->activityactualenddate ?></p>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h3>Activity creation date:</h3>
+                                <p><?= $model->creationdate ?></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <h3>Activity status:</h3>
+                                <p><?= $model->activitystatus ?></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3>Activity comment:</h3>
+                                <p><?= $model->comments ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<!--    --><?//= DetailView::widget([
+//        'model' => $model,
+//        'attributes' => [
+//            //'activityid',
+//            //'projectid',
+//            'activityname',
+//            'activitydescription',
+//            'activityplannedstartdate',
+//            'activityplannedenddate',
+//            'activityactualstartdate',
+//            'activityactualenddate',
+//            'creationdate',
+//            'activitystatus',
+//            'comments',
+//        ],
+//    ]) ?>
 
 </div>

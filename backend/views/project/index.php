@@ -21,15 +21,10 @@ $this->title = 'Projects';
     <div class="card">
             <div class="card__header">
                 <h1><?= Html::encode($this->title) ?></h1>
-<!--                --><?//= Breadcrumbs::widget([
-//                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-//                ]) ?>
-
 
                 <?= Alert::widget() ?>
                 <?php Pjax::begin();?>
                 <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
-
 
                 <p>
                     <?= Html::a('Create Project', ['create'], ['class' => 'btn btn-success']) ?>
@@ -37,35 +32,28 @@ $this->title = 'Projects';
             </div>
             <div class="card__body">
 
-<!--                --><?//=Html::beginForm(['controller/bulk'],'post');?>
-<!---->
-<!---->
-<!--                --><?//=Html::submitButton('Delete', ['class' => 'btn btn-info',]);?>
                 <?
+                $userid=Yii::$app->user->identity->getId();
+                $user = User::findOne(['id'=>$userid]);
 
+                if($user->userrole=="Project Owner"){
+                    $dataProvider = new ActiveDataProvider([
+                        'query' => Project::find()->where(['userid' => Yii::$app->user->identity->getId()]),
 
-                $dataProvider = new ActiveDataProvider([
-                    'query' => Project::find()->where(['userid' => Yii::$app->user->identity->getId()]),
-
-                ]);
+                    ]);
+                }
 
                 echo GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
-
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
-                        //['class' => 'yii\grid\CheckboxColumn'],
-
-                        //'projectid',
                         [
                             'attribute'=>'projectname',
                             'format'=>'raw',
                             'value' => function ($data) {
                                 $userid=Yii::$app->user->identity->getId();
                                 $usertest = User::findOne(['id'=>$userid]);
-
-                                if($usertest->userrole == 'Project Owner'){
+                                if($usertest->userrole == 'Project Owner'||$usertest->userrole == 'System Admin' ){
                                 return Html::a($data->projectname,['project/view','id'=>$data->projectid]);
                                 }
                                 else{
@@ -73,7 +61,6 @@ $this->title = 'Projects';
                                 }
                             },
                         ],
-                        //'projectname',
                         'projectclassification',
                         'projectdescription:html',
                         'projectplannedstartdate',
@@ -81,7 +68,6 @@ $this->title = 'Projects';
                         'projectactualstartdate',
                         'projectactualenddate',
                         'creationdate',
-                        // 'userid',
                         [
                             'attribute'=>'userid',
                             //'sortable'=>true,

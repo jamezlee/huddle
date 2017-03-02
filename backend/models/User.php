@@ -58,21 +58,20 @@ class User extends \yii\db\ActiveRecord
             ['username', 'required'],
             ['firstname', 'required'],
             ['lastname', 'required'],
-            ['username', 'unique','on' => 'insert', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'on' => 'insert', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
             ['jobtitle','required'],
             ['description','string'],
             ['jobtitle','string','min' => 2,'max'=>50],
             ['password_hash', 'required'],
             ['password_hash', 'string', 'min' => 6],
             ['repeatnewpass', 'string', 'min' => 6],
-            ['repeatnewpass', 'compare', 'compareAttribute'=>'password_hash', 'skipOnEmpty' => true, 'message'=>"Passwords don't match"],
+            ['repeatnewpass', 'compare', 'compareAttribute'=>'password_hash', 'skipOnEmpty' => false, 'message'=>"Passwords don't match"],
         ];
     }
 
@@ -129,7 +128,6 @@ class User extends \yii\db\ActiveRecord
         if (empty($token)) {
             return false;
         }
-
         $timestamp = (int) substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
@@ -233,6 +231,7 @@ class User extends \yii\db\ActiveRecord
             if ($this->isNewRecord) {
                 $this->created_at = new Expression('NOW()');
                 $this->setPassword($this->password_hash);
+                $this->status=0;
             }else{
                 if($this->repeatnewpass==$this->password_hash){
                     $this->setPassword($this->repeatnewpass);
@@ -245,6 +244,8 @@ class User extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+
 
 
     

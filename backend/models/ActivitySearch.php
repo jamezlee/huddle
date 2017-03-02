@@ -7,11 +7,15 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use backend\models\Activity;
 
+
 /**
  * ActivitySearch represents the model behind the search form about `backend\models\Activity`.
  */
 class ActivitySearch extends Activity
 {
+
+    public $globalActivitySearch;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +23,7 @@ class ActivitySearch extends Activity
     {
         return [
             [['activityid', 'projectid', 'comments'], 'integer'],
-            [['activityname', 'activitydescription', 'activityplannedstartdate', 'activityplannedenddate', 'activityactualstartdate', 'activityactualenddate', 'creationdate', 'activitystatus'], 'safe'],
+            [['globalActivitySearch','activityname', 'activitydescription', 'activityplannedstartdate', 'activityplannedenddate', 'activityactualstartdate', 'activityactualenddate', 'creationdate', 'activitystatus'], 'safe'],
         ];
     }
 
@@ -58,22 +62,22 @@ class ActivitySearch extends Activity
         }
         $query->joinWith('project');
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'activityid' => $this->activityid,
-//            'projectid' => $this->projectid,
-            'activityplannedstartdate' => $this->activityplannedstartdate,
-            'activityplannedenddate' => $this->activityplannedenddate,
-            'activityactualstartdate' => $this->activityactualstartdate,
-            'activityactualenddate' => $this->activityactualenddate,
-            'creationdate' => $this->creationdate,
-            'comments' => $this->comments,
-        ]);
+//          grid filtering conditions
+//        $query->andFilterWhere([
+//            'activityid' => $this->activityid,
+////            'projectid' => $this->projectid,
+//            'activityplannedstartdate' => $this->activityplannedstartdate,
+//            'activityplannedenddate' => $this->activityplannedenddate,
+//            'activityactualstartdate' => $this->activityactualstartdate,
+//            'activityactualenddate' => $this->activityactualenddate,
+//            'creationdate' => $this->creationdate,
+//            'comments' => $this->comments,
+//        ]);
 
-        $query->andFilterWhere(['like', 'activityname', $this->activityname])
-            ->andFilterWhere(['like', 'activitydescription', $this->activitydescription])
-            ->andFilterWhere(['like', 'activitystatus', $this->activitystatus])
-            ->andFilterWhere(['like', 'project.projectname', $this->projectid]);
+        $query->orFilterWhere(['like', 'activityname', $this->globalActivitySearch])
+            ->orFilterWhere(['like', 'activitydescription', $this->globalActivitySearch])
+            ->orFilterWhere(['like', 'activitystatus', $this->globalActivitySearch])
+            ->orFilterWhere(['like', 'project.projectname', $this->globalActivitySearch]);
 
         return $dataProvider;
     }

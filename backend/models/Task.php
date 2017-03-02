@@ -30,6 +30,7 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public $newfile;
     public static function tableName()
     {
         return 'task';
@@ -45,6 +46,7 @@ class Task extends \yii\db\ActiveRecord
             [['userid', 'activityid'], 'integer'],
             [['taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate'], 'safe'],
             [['taskstatus', 'comments'], 'string'],
+            [['newfile'],'file'],
             [['taskname', 'taskdescription', 'taskfile'], 'string', 'max' => 255],
             [['activityid'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activityid' => 'activityid']],
             [['userid'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userid' => 'id']],
@@ -59,8 +61,8 @@ class Task extends \yii\db\ActiveRecord
 
         return [
             'assignID' => 'Task ID',
-            'userid' => 'User id',
-            'activityid' => 'Task assign to which Activity',
+            'userid' => 'User name',
+            'activityid' => 'Activity Name',
             'taskname' => 'Task name',
             'taskdescription' => 'Task description',
             'taskplannedstartdate' => 'Task planned start date',

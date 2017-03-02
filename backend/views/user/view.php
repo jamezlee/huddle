@@ -30,10 +30,16 @@ $this->title = $model->username;
     <div class="content--boxed-sm">
 
         <header class="content__header">
+            <?= Alert::widget() ?>
+            <?= Yii::$app->session->getFlash('error'); ?>
             <h1>Welcome, <?= Html::encode($this->title) ?></h1>
             <h2>
             Name: <?=$model->firstname.' '.$model->lastname;?>
                 <small>Job Title: <?= $model->jobtitle; ?></small>
+                <?php
+
+
+                ?>
             </h2>
         </header>
         <div class="card ">

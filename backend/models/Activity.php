@@ -56,7 +56,7 @@ class Activity extends \yii\db\ActiveRecord
         return [
             'activityid' => 'Activity name:',
             'projectid' => 'Project name:',
-            'activityname' => 'Give the name for your activity:',
+            'activityname' => 'Activity Name:',
             'activitydescription' => 'Activity description',
             'activityplannedstartdate' => 'Activity planned start date',
             'activityplannedenddate' => 'Activity planned end date',

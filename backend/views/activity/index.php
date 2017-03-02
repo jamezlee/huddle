@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\widgets\Alert;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ActivitySearch */
@@ -11,36 +13,63 @@ $this->title = 'Activities';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="activity-index">
+    <div class="card">
+        <div class="card__header">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <h1><?= Html::encode($this->title) ?></h1>
+            <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+            <?php Pjax::begin();?>
+            <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            [
-                'attribute'=>'projectid',
-                'value'=>'project.projectname',
+            <p>
+                <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
+            </p>
 
-            ],
-          //  'activityid',
-            //'projectid',
-            'activityname',
-            'activitydescription',
-            'activityplannedstartdate',
-            // 'activityplannedenddate',
-            // 'activityactualstartdate',
-            // 'activityactualenddate',
-            // 'creationdate',
-            // 'activitystatus',
-            // 'comments',
+        </div>
+        <div class="card__body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                //'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    [
+                        'attribute'=>'projectid',
+                        'value'=>'project.projectname',
 
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    ],
+
+                    [
+                        'attribute'=>'activityname',
+                        'format'=>'raw',
+                        'value' => function ($data) {
+                            //$userid=Yii::$app->user->identity->getId();
+                            //$usertest = User::findOne(['id'=>$userid]);
+                            //if($usertest->userrole == 'Project Owner'||$usertest->userrole == 'System Admin' ){
+                            return Html::a($data->activityname,['activity/view','id'=>$data->activityid]);
+//                    }
+//                    else{
+//                        return $data->projectname;
+//                    }
+                        },
+                    ],
+                    'activitydescription',
+                    'activityplannedstartdate',
+                    // 'activityplannedenddate',
+                    // 'activityactualstartdate',
+                    // 'activityactualenddate',
+                    // 'creationdate',
+                    // 'activitystatus',
+                    // 'comments',
+
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+
+
+        </div>
+
+    </div>
+
+
+    <?php Pjax::end();?>
 </div>

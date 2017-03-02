@@ -4,13 +4,14 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use backend\models\User;
+use backend\models\Task;
 use backend\models\Activity;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Project */
 
-$this->title = $model->projectid;
+$this->title = $model->projectname;
 $this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -38,14 +39,28 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-sm-12">
                                 <br/>
                                 <p>
-                                    <?= Html::a('Update', ['update', 'id' => $model->projectid], ['class' => 'btn btn-primary']) ?>
-                                    <?= Html::a('Delete', ['delete', 'id' => $model->projectid], [
-                                        'class' => 'btn btn-danger',
-                                        'data' => [
-                                            'confirm' => 'Are you sure you want to delete this item?',
-                                            'method' => 'post',
-                                        ],
-                                    ]) ?>
+                                    <?
+                                    $userid=Yii::$app->user->identity->getId();
+                                    $userCurrent=User::findOne(['id'=>$userid]);
+                                    if ($user->id==$userid || $userCurrent->userrole=='System Admin') {
+                                        echo Html::a('Update', ['update', 'id' => $model->projectid], ['class' => 'btn btn-primary']);
+                                    }
+                                    ?>
+                                    <?
+
+                                    if ($user->id==$userid || $userCurrent->userrole=='System Admin'){
+                                        echo Html::a('Delete', ['delete', 'id' => $model->projectid], [
+                                            'class' => 'btn btn-danger',
+                                            'data' => [
+                                                'confirm' => 'Are you sure you want to delete this item?',
+                                                'method' => 'post',
+                                            ],
+                                        ]);
+
+
+                                    }
+
+                                     ?>
                                 </p>
                                 </div>
                         </div>
@@ -107,10 +122,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="row">
                         <div class="col-sm-12">
-                            <a href="<?= Url::base(true).'/'.$model->projectfile ?>" <i class="zmdi zmdi-download"></i> Download (Right click and save)</a>
+                            <? if ($model->projectfile!= ''){
+                                echo'<a href="'. Url::base(true).'/upload/'.$model->projectfile . '" <i class="zmdi zmdi-download"></i> Download (Right click and save)</a>';
+                            }
+                            else{
+                                echo'<p>There is no file</p>';
+                            }
+                            ?>
 
-
-                    <P> <?= Url::base(true)?></P>
+<!--                            <a href="--><?//= Url::base(true).'/'.$model->projectfile ?><!--" <i class="zmdi zmdi-download"></i> Download (Right click and save)</a>-->
                         </div>
 
                     </div>
@@ -130,72 +150,51 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="row">
 
-<!--                    <div class="col-sm-12">-->
-<!--                        <div class="panel-group" id="accordion">-->
-<!--                            <div class="panel panel-collapse">-->
-<!--                                <div class="panel-heading">-->
-<!--                                    <h4 class="panel-title">-->
-<!--                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse-1">-->
-<!--                                            Collapsible Group Item #1-->
-<!--                                        </a>-->
-<!--                                    </h4>-->
-<!--                                </div>-->
-<!--                                <div id="collapse-1" class="collapse in">-->
-<!--                                    <div class="panel-body">sdfsdfdfsd</div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="panel panel-collapse">-->
-<!--                                <div class="panel-heading">-->
-<!--                                    <h4 class="panel-title">-->
-<!--                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse-2">-->
-<!--                                            Collapsible Group Item #2-->
-<!--                                        </a>-->
-<!--                                    </h4>-->
-<!--                                </div>-->
-<!--                                <div id="collapse-2" class="collapse">-->
-<!--                                    <div class="panel-body">sdfsdfds</div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="panel panel-collapse">-->
-<!--                                <div class="panel-heading">-->
-<!--                                    <h4 class="panel-title">-->
-<!--                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse-3">-->
-<!--                                            Collapsible Group Item #3-->
-<!--                                        </a>-->
-<!--                                    </h4>-->
-<!--                                </div>-->
-<!--                                <div id="collapse-3" class="collapse">-->
-<!--                                    <div class="panel-body">sdfsdfds</div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!---->
-<!--                    </div>-->
 
                     <div class="col-sm-12">
-
                         <div class="panel-group" id="accordion">
 
                             <?php
                             $foundActivitys = Activity::findAll(['projectid' => $model->projectid]);
                             $x=1;
                             foreach ($foundActivitys as $foundActivity) {
-
+                                $y=$foundActivity->activityid;
                                // echo "addMarker({$model->lat_field}, {$model->lon_field});";
                                 echo '<div class="panel panel-collapse">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-'.$x.'">'
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse-'.$x.'">
+                                                Activity Name: <strong>'
                                                    .  $foundActivity->activityname .
-                                                '</a>
 
+                                                '</strong></a>
+                                                ' . Html::a('<i class="zmdi zmdi-edit"></i>',['activity/update','id'=>$foundActivity->activityid],['class'=>'icon']) .'
+                                                ' . Html::a('<i class="zmdi zmdi-eye"></i>',['activity/view','id'=>$foundActivity->activityid],['class'=>'icon']) .'
 
                                             </h4>
                                         </div>
-                                        <div id="collapse-'.$x.'" class="collapse in">
-                                            <div class="panel-body">sdfsdfdfsd</div>
-                                        </div>
+                                        <div id="collapse-'.$x.'" class="collapse in">';
+                                        $foundTasks = Task::findAll(['activityid' => $y]);
+                                          foreach ($foundTasks as $foundTask) {
+                                            echo'<div class="panel-body">
+                                                <h5>Task name: </h5>'
+                                                . $foundTask->taskname.
+                                                Html::a('<i class="zmdi zmdi-edit"></i>',['task/update','id'=>$foundTask->assignID],['class'=>'icon']) .
+                                                Html::a('<i class="zmdi zmdi-eye"></i>',['task/view','id'=>$foundTask->assignID],['class'=>'icon']) .
+                                                '</div>';
+
+                                             }
+
+
+//                                            '<div class="panel-body">
+//                                            <h4>task list</h4>
+//
+//                                            </div>
+//                                            <div class="panel-body">
+//                                            <h4>task list</h4>
+//
+//                                            </div>
+                                  echo   '</div>
                                     </div>';
 
                                     $x++;
@@ -206,36 +205,35 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
 
                     </div>
-                    <div class="col-sm-12">
-<!--                        --><?// $ActivityRelated = Activity::findOne(['projectid'=>$model->projectid]);?>
-                        <? $dataActivityProvider = new ActiveDataProvider([
-                            'query' => Activity::find()->where(['projectid' => $model->projectid]),
-
-                        ]);
-
-
-                        echo GridView::widget([
-                            'dataProvider' => $dataActivityProvider,
-                            //  'filterModel' => $searchModel,
-                            'columns' => [
-                                ['class' => 'yii\grid\SerialColumn'],
-                                //'taskid',
-                                'projectid',
-                                'activityname',
-                                'activitydescription',
-                                'activityplannedstartdate',
-                                'activityplannedenddate',
-                                'activityactualstartdate',
-                                'activityactualenddate',
-                                'creationdate',
-                                'activitystatus',
-                                'comments',
-
-                                ['class' => 'yii\grid\ActionColumn'],
-                            ],
-
-                        ]); ?>
-                    </div>
+<!--                    <div class="col-sm-12">-->
+<!--                        --><?// $dataActivityProvider = new ActiveDataProvider([
+//                            'query' => Activity::find()->where(['projectid' => $model->projectid]),
+//
+//                        ]);
+//
+//
+//                        echo GridView::widget([
+//                            'dataProvider' => $dataActivityProvider,
+//                            //  'filterModel' => $searchModel,
+//                            'columns' => [
+//                                ['class' => 'yii\grid\SerialColumn'],
+//                                //'taskid',
+//                                'projectid',
+//                                'activityname',
+//                                'activitydescription',
+//                                'activityplannedstartdate',
+//                                'activityplannedenddate',
+//                                'activityactualstartdate',
+//                                'activityactualenddate',
+//                                'creationdate',
+//                                'activitystatus',
+//                                'comments',
+//
+//                                ['class' => 'yii\grid\ActionColumn'],
+//                            ],
+//
+//                        ]); ?>
+<!--                    </div>-->
                 </div>
 
 

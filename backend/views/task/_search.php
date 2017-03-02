@@ -14,16 +14,31 @@ use yii\widgets\ActiveForm;
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <div class="top-search">
+                    <?= $form->field($model, 'globalTaskSearch')->label("")->textInput(['class'=>'top-search__input','placeholder'=>'search for task name / description / task status / user / Comment']) ?>
+                    <i class="zmdi zmdi-search top-search__reset"></i>
+                </div>
+                <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+                <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
 
-    <?= $form->field($model, 'assignID') ?>
 
-    <?= $form->field($model, 'userid') ?>
+            </div>
 
-    <?= $form->field($model, 'activityid') ?>
+        </div>
 
-    <?= $form->field($model, 'taskname') ?>
-
-    <?= $form->field($model, 'taskdescription') ?>
+    </div>
+<!--    --><?//= $form->field($model, 'assignID') ?>
+<!---->
+<!--    --><?//= $form->field($model, 'userid') ?>
+<!---->
+<!--    --><?//= $form->field($model, 'activityid') ?>
+<!---->
+<!--    --><?//= $form->field($model, 'taskname') ?>
+<!---->
+<!--    --><?//= $form->field($model, 'taskdescription') ?>
 
     <?php // echo $form->field($model, 'taskplannedstartdate') ?>
 
@@ -41,10 +56,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'comments') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-    </div>
+
 
     <?php ActiveForm::end(); ?>
 

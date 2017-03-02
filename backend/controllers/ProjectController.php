@@ -5,6 +5,7 @@ namespace backend\controllers;
 //use GuzzleHttp\Psr7\UploadedFile;
 use Yii;
 use backend\models\Project;
+use backend\models\User;
 use backend\models\ProjectSearch;
 use backend\models\Activity;
 use backend\models\ActivitySearch;
@@ -64,6 +65,7 @@ class ProjectController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $dataActivityProvider = $searchActivityModel->search(Yii::$app->request->queryParams);
 
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -96,17 +98,22 @@ class ProjectController extends Controller
     public function actionCreate()
     {
        // if(Yii::$app->user->can('admin')){
-
+        $dataUser= User::findOne(['id' => \Yii::$app->user->identity->id]);
 
         $model = new Project();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->newfile = UploadedFile::getInstance($model, 'newfile');
 
-            $model->projectfile=UploadedFile::getInstance($model,'projectfile');
-            $model->projectfile->saveAs('upload/'. $model->projectfile);
-            $model->projectfile = 'upload/'. $model->projectfile;
+            if(!empty($model->newfile)&& $model->newfile->size !== 0){
+                $model->newfile->saveAs('upload/' . $model->newfile);
+                $model->projectfile = $model->newfile->name;
 
-            $model->save();
+            }
+            if($dataUser->userrole=="Project Owner"){
+                $model->userid = \Yii::$app->user->identity->id;
+            }
 
+                $model->save();
             return $this->redirect(['view', 'id' => $model->projectid]);
             } else {
                 return $this->render('create', [
@@ -131,13 +138,18 @@ class ProjectController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $current_image = $model->projectfile;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->newfile = UploadedFile::getInstance($model, 'newfile');
 
-            $model->projectfile=UploadedFile::getInstance($model,'projectfile');
-            $model->projectfile->saveAs('upload/'. $model->projectfile);
-            $model->projectfile = 'upload/'. $model->projectfile;
+          if(!empty($model->newfile)&& $model->newfile->size !== 0){
+            $model->newfile->saveAs('upload/' .$model->newfile);
+            $model->projectfile = $model->newfile->name;
 
+         }else{
+              $model->projectfile=$current_image;
+          }
             $model->save();
             return $this->redirect(['view', 'id' => $model->projectid]);
         } else {
@@ -156,7 +168,6 @@ class ProjectController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
