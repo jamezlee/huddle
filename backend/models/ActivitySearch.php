@@ -46,12 +46,18 @@ class ActivitySearch extends Activity
     public function search($params)
     {
         $query = Activity::find();
-
+        $query->joinWith(['project']);
+        $query->joinWith(['task']);
+//        $query->joinWith('project',['activity.projectid = project.projectid']);
+//        $query->joinWith('task');
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+
+
 
         $this->load($params);
 
@@ -60,7 +66,6 @@ class ActivitySearch extends Activity
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->joinWith('project');
 
 //          grid filtering conditions
 //        $query->andFilterWhere([
@@ -77,7 +82,8 @@ class ActivitySearch extends Activity
         $query->orFilterWhere(['like', 'activityname', $this->globalActivitySearch])
             ->orFilterWhere(['like', 'activitydescription', $this->globalActivitySearch])
             ->orFilterWhere(['like', 'activitystatus', $this->globalActivitySearch])
-            ->orFilterWhere(['like', 'project.projectname', $this->globalActivitySearch]);
+            ->orFilterWhere(['like', 'project.projectname', $this->globalActivitySearch])
+        ->orFilterWhere(['like', 'task.taskname', $this->globalActivitySearch]);
 
         return $dataProvider;
     }

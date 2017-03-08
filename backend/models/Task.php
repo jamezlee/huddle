@@ -4,7 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\db\Expression;
-
+use backend\models\Project;
 /**
  * This is the model class for table "task".
  *
@@ -31,6 +31,7 @@ class Task extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public $newfile;
+
     public static function tableName()
     {
         return 'task';
@@ -43,8 +44,11 @@ class Task extends \yii\db\ActiveRecord
     {
         return [
             [['userid', 'activityid', 'taskname', 'taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'taskstatus'], 'required'],
+            //['taskplannedstartdate', DateTimeCompareValidator::className(), 'compareAttribute' => 'taskplannedenddate', 'format' => 'Y-m-d', 'operator' => '>'],
             [['userid', 'activityid'], 'integer'],
-            [['taskplannedstartdate', 'taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate'], 'safe'],
+
+            [['taskplannedstartdate','taskplannedenddate', 'taskactualstartdate', 'taskactualenddate', 'creationdate'], 'safe'],
+
             [['taskstatus', 'comments'], 'string'],
             [['newfile'],'file'],
             [['taskname', 'taskdescription', 'taskfile'], 'string', 'max' => 255],
@@ -79,6 +83,12 @@ class Task extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+
+
+
+
+
+
     public function getActivity()
     {
         return $this->hasOne(Activity::className(), ['activityid' => 'activityid']);
@@ -97,6 +107,7 @@ class Task extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->creationdate = new Expression('NOW()');
+
             }
             return true;
         } else {

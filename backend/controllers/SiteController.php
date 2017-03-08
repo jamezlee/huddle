@@ -12,6 +12,7 @@ use backend\models\Activity;
 use backend\models\ActivitySearch;
 
 
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -34,6 +35,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
+
                     ],
                     [
                         'actions' => ['logout', 'index'],
@@ -78,7 +80,6 @@ class SiteController extends Controller
         $dataTaskProvider = $searchTaskModel->search(Yii::$app->request->queryParams);
         $dataActivityProvider = $searchActivityModel->search(Yii::$app->request->queryParams);
 
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -120,6 +121,7 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
 
 
 }

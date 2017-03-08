@@ -4,6 +4,10 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use common\widgets\Alert;
 use yii\widgets\Pjax;
+use backend\models\Activity;
+use backend\models\User;
+
+use yii\data\ActiveDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ActivitySearch */
@@ -27,7 +31,19 @@ $this->params['breadcrumbs'][] = $this->title;
 
         </div>
         <div class="card__body">
-            <?= GridView::widget([
+            <?
+            $userID=Yii::$app->user->identity->getId();
+            $currentUser=User::findOne(['id'=>$userID]);
+//            if($currentUser->userrole=="Project Owner"){
+//                $dataProvider = new ActiveDataProvider([
+//                    'query' => Activity::find()->joinWith(['project'])->where(['userid' =>  $userID]),
+//
+//
+//                ]);
+//
+//            }
+
+            echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 //'filterModel' => $searchModel,
                 'columns' => [
@@ -37,6 +53,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value'=>'project.projectname',
 
                     ],
+
+
 
                     [
                         'attribute'=>'activityname',

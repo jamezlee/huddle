@@ -12,6 +12,7 @@ use backend\models\User;
  */
 class UserSearch extends User
 {
+    public $globalUserSearch;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class UserSearch extends User
     {
         return [
             [['id', 'userrole', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['firstname', 'lastname', 'jobtitle', 'username', 'description', 'auth_key', 'password_hash', 'password_reset_token', 'email'], 'safe'],
+            [['globalUserSearch','firstname', 'lastname', 'jobtitle', 'username', 'description', 'auth_key', 'password_hash', 'password_reset_token', 'email'], 'safe'],
         ];
     }
 
@@ -58,23 +59,23 @@ class UserSearch extends User
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'userrole' => $this->userrole,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-        ]);
+//        $query->andFilterWhere([
+//            'id' => $this->id,
+//            'userrole' => $this->userrole,
+//            'status' => $this->status,
+//            'created_at' => $this->created_at,
+//            'updated_at' => $this->updated_at,
+//        ]);
 
-        $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname])
-            ->andFilterWhere(['like', 'jobtitle', $this->jobtitle])
-            ->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
-            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
-            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
-            ->andFilterWhere(['like', 'email', $this->email]);
+        $query->orFilterWhere(['like', 'firstname', $this->globalUserSearch])
+            ->orFilterWhere(['like', 'lastname', $this->globalUserSearch])
+            ->orFilterWhere(['like', 'jobtitle', $this->globalUserSearch])
+            ->orFilterWhere(['like', 'username', $this->globalUserSearch])
+            ->orFilterWhere(['like', 'description', $this->globalUserSearch])
+//            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
+//            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
+//            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+            ->orFilterWhere(['like', 'email', $this->globalUserSearch]);
 
         return $dataProvider;
     }

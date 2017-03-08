@@ -5,6 +5,9 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Task;
 use backend\models\TaskSearch;
+use backend\models\Activity;
+use backend\models\User;
+use backend\models\ActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -56,10 +59,40 @@ class TaskController extends Controller
     public function actionIndex()
     {
         $searchModel = new TaskSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchActivity = new ActivitySearch();
+
+        $getUser=User::findOne(['id'=>\Yii::$app->user->identity->id]);
+
+
+
+      //  $query2s =Task::find()->where(['activityid'=>$dataarrays]);
+
+
+        if($getUser->userrole=="Project Owner"){
+
+            $query1s= Activity::find()->from(['project','activity'])->where('project.projectid=activity.projectid')->andWhere(['project.userid' => \Yii::$app->user->identity->id])->all();
+            foreach($query1s as $query1){
+                $dataarrays[]=$query1->activityid ;
+            }
+            //$dataActivityProvider = $searchActivity->search(Yii::$app->request->queryParams);
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->query->andWhere(['activityid'=>$dataarrays]);
+            $dataProvider->query->orWhere(['userid'=>\Yii::$app->user->identity->id]);
+           // $dataProvider->query->andWhere(['userid'=>\Yii::$app->user->identity->id]);
+            $dataProvider->pagination->pageSize=10;
+        }
+        else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->query->andWhere(['userid'=>\Yii::$app->user->identity->id]);
+            $dataProvider->pagination->pageSize=10;
+        }
+
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            //'activityProvider'=>$dataActivityProvider
         ]);
     }
 
@@ -140,6 +173,9 @@ class TaskController extends Controller
      */
     public function actionDelete($id)
     {
+
+
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

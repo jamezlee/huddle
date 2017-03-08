@@ -12,10 +12,9 @@ use yii\helpers\Html;
     <div class="card">
 
         <header class="content__header">
-        <?php $this->title = 'Create Project';
+        <?php $this->title = 'Create New Project';
         $this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
-        $this->params['breadcrumbs'][] = $this->title;?>
-            <br/>
+        $this->params['breadcrumbs'][] = $this->title;?><br/>
         <h1><?= Html::encode($this->title) ?></h1>
         </header>
 

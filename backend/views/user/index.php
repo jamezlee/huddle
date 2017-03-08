@@ -15,16 +15,17 @@ $this->title = 'List of Users';
 
 ?>
 <div class="user-index">
-    <script>
-        $.pjax.reload({container:'#w1'});
-    </script>
+
+    <?php Pjax::begin();?>
 
     <header class="content__header">
         <h1><?= Html::encode($this->title) ?></h1>
         <?= Alert::widget() ?>
         <?= Yii::$app->session->getFlash('error'); ?>
-        <p>
-            <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
+
+        <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+
+        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
     </header>
 
@@ -37,12 +38,12 @@ $this->title = 'List of Users';
 
     <div class="card">
     <div class="card__body">
-        <?php \yii\widgets\Pjax::begin(); ?>
+
 
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'class'=>'test',
+           // 'filterModel' => $searchModel,
+           // 'class'=>'test',
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
                 //'id',
@@ -50,7 +51,7 @@ $this->title = 'List of Users';
                 'lastname',
                 'jobtitle',
                 'username',
-                // 'description',
+                'description',
                 // 'auth_key',
                 // 'password_hash',
                 // 'password_reset_token',
@@ -100,11 +101,10 @@ $this->title = 'List of Users';
             ],
         ]); ?>
 
-        <?php \yii\widgets\Pjax::end(); ?>
 
 
     </div>
-
+        <?php Pjax::end();?>
     </div>
 
 </div>

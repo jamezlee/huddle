@@ -116,8 +116,11 @@ AppAsset::register($this);
         if($usertest->userrole=="Project Owner" || $usertest->userrole=="User" || $usertest->userrole=="System Admin"){
             $menuItems[]=['label' => '<i class="zmdi zmdi-assignment-o"></i> Task', 'url' => ['/task/']];
         }
+        if($usertest->userrole=="Project Owner" || $usertest->userrole=="System Admin") {
 
-        $menuItems []=['label' => '<i class="zmdi zmdi-account-o"></i> User', 'url' => ['/user/']];
+            $menuItems []=['label' => '<i class="zmdi zmdi-account-o"></i> User', 'url' => ['/user/']];
+
+        }
         echo Nav::widget([
             'encodeLabels'=>false,
             'items' => $menuItems,

@@ -13,17 +13,17 @@ use yii\data\ActiveDataProvider;
 /* @var $searchModel backend\models\ProjectSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Projects';
+$this->title = 'List of Projects';
  $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-index">
 
-    <div class="card">
+    <div class="card"><?php Pjax::begin();?>
             <div class="card__header">
                 <h1><?= Html::encode($this->title) ?></h1>
 
                 <?= Alert::widget() ?>
-                <?php Pjax::begin();?>
+
                 <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
 
                 <p>
@@ -36,15 +36,18 @@ $this->title = 'Projects';
                 $userid=Yii::$app->user->identity->getId();
                 $user = User::findOne(['id'=>$userid]);
 
-                if($user->userrole=="Project Owner"){
-                    $dataProvider = new ActiveDataProvider([
-                        'query' => Project::find()->where(['userid' => Yii::$app->user->identity->getId()]),
+//                if($user->userrole=="Project Owner"){
+//                    $dataProvider = new ActiveDataProvider([
+//                        'query' => Project::find()->where(['userid' => Yii::$app->user->identity->getId()]),
+//
+//                    ]);
+//                }
 
-                    ]);
-                }
 
                 echo GridView::widget([
                     'dataProvider' => $dataProvider,
+                    //'filterModel'=>$searchModel,
+
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
@@ -61,13 +64,13 @@ $this->title = 'Projects';
                                 }
                             },
                         ],
-                        'projectclassification',
+                        //'projectclassification',
                         'projectdescription:html',
                         'projectplannedstartdate',
                         'projectplannedenddate',
                         'projectactualstartdate',
                         'projectactualenddate',
-                        'creationdate',
+                        //'creationdate',
                         [
                             'attribute'=>'userid',
                             //'sortable'=>true,

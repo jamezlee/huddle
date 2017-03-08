@@ -45,8 +45,10 @@ class Activity extends \yii\db\ActiveRecord
             [['activitystatus', 'comments'], 'string'],
             [['activityname', 'activitydescription'], 'string', 'max' => 255],
             [['projectid'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['projectid' => 'projectid']],
+
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -56,6 +58,7 @@ class Activity extends \yii\db\ActiveRecord
         return [
             'activityid' => 'Activity name:',
             'projectid' => 'Project name:',
+
             'activityname' => 'Activity Name:',
             'activitydescription' => 'Activity description',
             'activityplannedstartdate' => 'Activity planned start date',
@@ -79,10 +82,11 @@ class Activity extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getTask()
     {
         return $this->hasMany(Task::className(), ['activityid' => 'activityid']);
     }
+
 
     public function beforeSave($insert)
     {

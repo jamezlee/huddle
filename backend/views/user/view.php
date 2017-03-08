@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use backend\models\User;
-
+use common\widgets\Alert;
 /* @var $this yii\web\View */
 /* @var $model backend\models\User */
 
@@ -13,18 +13,6 @@ $this->title = $model->username;
 ?>
 <div class="user-view">
 
-<!--    <h1>--><?//= Html::encode($this->title) ?><!--</h1>-->
-<!---->
-<!--    <p>-->
-<!--        --><?//= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-<!--        --><?//= Html::a('Delete', ['delete', 'id' => $model->id], [
-//            'class' => 'btn btn-danger',
-//            'data' => [
-//                'confirm' => 'Are you sure you want to delete this item?',
-//                'method' => 'post',
-//            ],
-//        ]) ?>
-<!--    </p>-->
 
 
     <div class="content--boxed-sm">
@@ -47,21 +35,42 @@ $this->title = $model->username;
 
                 <div class="col-md-12">
                     <div class="profile__info">
+
                         <h3>Description</h3>
                         <p><?= $model->description ?></p>
                         <h3>Joined since</h3>
                         <p><?= $model->created_at ?></p>
                         <h3>Last Update</h3>
                         <p><?= $model->updated_at ?></p>
+                        <h3>Contact email</h3>
+                        <p><?= '<a href="mailto:'.$model->email.'">'.$model->email.'</a>' ?></p>
+
                         <p>
-                            <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-default btn-block']) ?>
-                            <!--                    --><?//= Html::a('Delete', ['delete', 'id' => $model->id], [
-                            //                        'class' => 'btn btn-danger',
-                            //                        'data' => [
-                            //                            'confirm' => 'Are you sure you want to delete this item?',
-                            //                            'method' => 'post',
-                            //                        ],
-                            //                    ]) ?>
+                            <?php
+                            $userid=Yii::$app->user->identity->getId();
+                            $userCurrent=User::findOne(['id'=>$userid]);
+
+                            if ($userCurrent->userrole =='System Admin' || $model->id == $userid){
+                            echo Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']);
+                            }
+
+                            ?>
+                            <?php
+                            if ( $userCurrent->userrole=='System Admin'){
+                                echo Html::a('Delete', ['delete', 'id' => $model->id], [
+                                    'class' => 'btn btn-danger',
+                                    'data' => [
+                                        'confirm' => 'Are you sure you want to delete this item?',
+                                        'method' => 'post',
+                                    ],
+                                ]);
+
+
+                            }
+
+                            ?>
+
+
                         </p>
                     </div>
 

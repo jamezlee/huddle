@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Activity;
 use backend\models\ActivitySearch;
+use backend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -54,8 +55,20 @@ class ActivityController extends Controller
     public function actionIndex()
     {
         $searchModel = new ActivitySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        /* geting user right to display */
+        $getUser=User::findOne(['id'=>\Yii::$app->user->identity->id]);
+        if($getUser->userrole=="Project Owner"){
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->query->andWhere(['project.userid'=>\Yii::$app->user->identity->id]);
+            $dataProvider->pagination->pageSize=10;
+        }
+
+        else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->pagination->pageSize=10;
+        }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

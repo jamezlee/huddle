@@ -5,7 +5,6 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Project;
 
 /**
  * ProjectSearch represents the model behind the search form about `backend\models\Project`.
@@ -77,12 +76,15 @@ class ProjectSearch extends Project
 
 
         $query->orFilterWhere(['like', 'projectname', $this->globalProjectSearch])
-            ->orFilterWhere(['like', 'projectclassification', $this->globalProjectSearch])
+            //->orFilterWhere(['like', 'projectclassification', $this->globalProjectSearch])
             ->orFilterWhere(['like', 'projectdescription', $this->globalProjectSearch])
             ->orFilterWhere(['like', 'projectstatus', $this->globalProjectSearch])
-            ->orFilterWhere(['like', 'projectfile', $this->globalProjectSearch])
-            ->orFilterWhere(['like', 'user.username', $this->globalProjectSearch])
-            ->orFilterWhere(['like', 'comments', $this->globalProjectSearch]);
+            ->orFilterWhere(['like', 'projectplannedstartdate', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectplannedenddate', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectactualstartdate', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'projectactualenddate', $this->globalProjectSearch])
+            ->orFilterWhere(['like', 'user.username', $this->globalProjectSearch]);
+           // ->orFilterWhere(['like', 'comments', $this->globalProjectSearch]);
 
         return $dataProvider;
     }

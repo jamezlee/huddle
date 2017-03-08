@@ -67,10 +67,8 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->generateAuthKey();
         $user->status=0;
-        //$user->created_at=new CDbExpression('NOW()');
 
         $user->setPassword($this->password);
-        $user->generateAuthKey();
 
 
 

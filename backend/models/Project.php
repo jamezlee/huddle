@@ -62,16 +62,16 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             'projectid' => 'Projectid',
-            'projectname' => 'Project name',
+            'projectname' => 'Project Name',
             'projectclassification' => 'Project classification',
-            'projectdescription' => 'Project description',
-            'projectplannedstartdate' => 'Project planned start date',
-            'projectplannedenddate' => 'Project planned end date',
-            'projectactualstartdate' => 'Project actual start date',
-            'projectactualenddate' => 'Project actual end date',
+            'projectdescription' => 'Project Description',
+            'projectplannedstartdate' => 'Planned Start Date',
+            'projectplannedenddate' => 'Planned End Date',
+            'projectactualstartdate' => 'Actual Start Date',
+            'projectactualenddate' => 'Actual End Date',
             'creationdate' => 'Creation date',
             'userid' => 'Owner',
-            'projectstatus' => 'Project status',
+            'projectstatus' => 'Project Status',
             'projectfile' => 'Project file',
             'comments' => 'Comments',
         ];

@@ -66,7 +66,17 @@ use dosamigos\ckeditor\CKEditor;
 
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'taskname')->textInput(['maxlength' => true]) ?>
+
+                    <?
+                    if($userCurrent->userrole=="System Admin" || $userCurrent->userrole=="Project Owner") {
+                        echo $form->field($model, 'taskname')->textInput(['maxlength' => true]);
+                    }else{
+                        echo'<h5>Task name</h5>'.$model->taskname ;
+                    }
+                    ?>
+
+
+
                 </div>
             </div>
 

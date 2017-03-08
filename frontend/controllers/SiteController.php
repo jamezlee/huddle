@@ -13,7 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\helpers\Html;
-use backend\models\User;
+use common\models\User;
 use backend\models\UserSearch;
 
 /**
@@ -352,10 +352,11 @@ class SiteController extends Controller
 //        $userid=Yii::$app->request->get($id);
 //        $userkey=Yii::$app->request->get($key);
 
-        $user = \backend\models\User::find()->where(['id'=>$id, 'auth_key'=>$key, 'status'=>0])->one();
+        $user = User::find()->where(['id'=>$id, 'auth_key'=>$key])->one();
         //echo $id;
         if(!empty($user)){
             $user->status=10;
+
             $user->save();
             Yii::$app->getSession()->setFlash('success','Success! ');
 

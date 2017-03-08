@@ -60,16 +60,26 @@ class ProjectController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProjectSearch();
-        $searchActivityModel = new ActivitySearch();
 
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataActivityProvider = $searchActivityModel->search(Yii::$app->request->queryParams);
+        /* geting user right to display */
+        $getUser=User::findOne(['id'=>\Yii::$app->user->identity->id]);
+        if($getUser->userrole=="Project Owner"){
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->query->andWhere(['userid'=>\Yii::$app->user->identity->id]);
+            $dataProvider->pagination->pageSize=10;
+        }
+        else{
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->pagination->pageSize=10;
+        }
 
+       // $dataProvider->query->andWhere(['userid'=>\Yii::$app->user->identity->id]);
+       // $dataActivityProvider = $searchActivityModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'dataActivityProvider' => $dataActivityProvider,
+         //   'dataActivityProvider' => $dataActivityProvider,
         ]);
     }
 
