@@ -23,7 +23,8 @@
         "2amigos/yii2-ckeditor-widget": "^2.0",
         "dektrium/yii2-user": "^0.9.12",
         "phpoffice/phpexcel": "dev-develop",
-        "nepstor/yii2-datetime-compare-validator": "^2.0"
+        "nepstor/yii2-datetime-compare-validator": "^2.0",
+        "empathy/yii2-datetime-compare": "^2.2"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

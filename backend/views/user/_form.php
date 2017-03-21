@@ -22,7 +22,11 @@ $currentUser=User::findOne(['id'=>$userID]);
     <?= $form->field($model,'description')->textarea() ?>
     <?= $form->field($model, 'email')->label('Email') ?>
     <?= $form->field($model, 'username')->textInput() ?>
+<!--    --><?//= $form->field($model, 'userrole')->textInput() ?>
 
+<!--    --><?//= $form->field($model, 'userrole')->dropDownList([ 'System Admin' => 'System Admin', 'Project Owner' => 'Project Owner', 'User' => 'User', ], ['prompt' => '']) ?>
+
+<!--    --><?//= $form->field($model, 'userrole')->dropDownList([ 'System Admin' => 'System Admin', 'Project Owner' => 'Project Owner', 'User' => 'User', ], ['prompt' => '']) ?>
    <?if ($currentUser->userrole=='System Admin'){
      echo  $form->field($model, 'userrole')->dropDownList([ 'System Admin' => 'System Admin', 'Project Owner' => 'Project Owner', 'User' => 'User', ], ['prompt' => '']);
    }else if ($currentUser->userrole=='Project Owner'){

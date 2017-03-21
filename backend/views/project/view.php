@@ -14,6 +14,12 @@ use yii\data\ActiveDataProvider;
 $this->title = $model->projectname;
 $this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$session = Yii::$app->session;
+$session->set('projectid',$model->projectid);
+
+
+
 ?>
 <div class="project-view">
 
@@ -35,35 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="col-md-12">
 
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <br/>
-                                <p>
-                                    <?
-                                    $userid=Yii::$app->user->identity->getId();
-                                    $userCurrent=User::findOne(['id'=>$userid]);
-                                    if ($user->id==$userid || $userCurrent->userrole=='System Admin') {
-                                        echo Html::a('Update', ['update', 'id' => $model->projectid], ['class' => 'btn btn-primary']);
-                                    }
-                                    ?>
-                                    <?
 
-                                    if ($user->id==$userid || $userCurrent->userrole=='System Admin'){
-                                        echo Html::a('Delete', ['delete', 'id' => $model->projectid], [
-                                            'class' => 'btn btn-danger',
-                                            'data' => [
-                                                'confirm' => 'Are you sure you want to delete this item?',
-                                                'method' => 'post',
-                                            ],
-                                        ]);
-
-
-                                    }
-
-                                     ?>
-                                </p>
-                                </div>
-                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <h3>Project Classification</h3>
@@ -135,7 +113,35 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-6 text-right">
+                            <br/>
+                            <p>
+                                <?
+                                $userid=Yii::$app->user->identity->getId();
+                                $userCurrent=User::findOne(['id'=>$userid]);
+                                if ($user->id==$userid || $userCurrent->userrole=='System Admin') {
+                                    echo Html::a('Edit', ['update', 'id' => $model->projectid], ['class' => 'btn btn-primary']);
+                                }
+                                ?>
+                                <?
 
+                                if ($user->id==$userid || $userCurrent->userrole=='System Admin'){
+                                    echo Html::a('Delete', ['delete', 'id' => $model->projectid], [
+                                        'class' => 'btn btn-danger',
+                                        'data' => [
+                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'method' => 'post',
+                                        ],
+                                    ]);
+
+
+                                }
+
+                                ?>
+                            </p>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -149,12 +155,18 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card">
 
                 <div class="row">
-
+                    <div class="col-sm-6 col-sm-offset-6 text-right">
+                        <?= Html::a('Create new activity', ['activity/create'],['class' => 'btn btn-success'])?>
+                    </div>
 
                     <div class="col-sm-12">
                         <div class="panel-group" id="accordion">
 
+
                             <?php
+
+
+
                             $foundActivitys = Activity::findAll(['projectid' => $model->projectid]);
                             $x=1;
                             foreach ($foundActivitys as $foundActivity) {
@@ -170,8 +182,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 '</strong></a>
                                                 ' . Html::a('<i class="zmdi zmdi-edit"></i>',['activity/update','id'=>$foundActivity->activityid],['class'=>'icon']) .'
                                                 ' . Html::a('<i class="zmdi zmdi-eye"></i>',['activity/view','id'=>$foundActivity->activityid],['class'=>'icon']) .'
+                                                ' . Html::a('Add task', ['task/create'],['class'=>'btn btn-success']);
+                                                 $sessionTask = Yii::$app->session;
+                                                     $sessionTask->set('activityid',$foundActivity->activityid);
+                                            echo'</h4>
 
-                                            </h4>
                                         </div>
                                         <div id="collapse-'.$x.'" class="collapse in">';
                                         $foundTasks = Task::findAll(['activityid' => $y]);

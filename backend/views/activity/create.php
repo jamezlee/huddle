@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="activity-create">
     <div class="card">
         <header class="content__header">
-            <?php $this->title = 'Create Activity'; ?>
+            <?php $this->title = 'Create New Activity'; ?>
             <br/>
              <h1><?= Html::encode($this->title) ?></h1>
         </header>

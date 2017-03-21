@@ -15,6 +15,8 @@ use yii\data\ActiveDataProvider;
 
 $this->title = 'List of Projects';
  $this->params['breadcrumbs'][] = $this->title;
+
+
 ?>
 <div class="project-index">
 
@@ -47,7 +49,21 @@ $this->title = 'List of Projects';
                 echo GridView::widget([
                     'dataProvider' => $dataProvider,
                     //'filterModel'=>$searchModel,
+                    'rowOptions'=>function($model,$index,$widget,$grid){
+                        $time = new DateTime('now');
+                        $future = new DateTime('now');
+                        $future->modify('+5 day');
+                        $today=$time->format('Y-m-d');
+                        $diff=strtotime($model->projectactualenddate)-strtotime($today);
+                        $days = floor($diff / (60*60*24) );
+                        //  echo $days .'<br>';
+                        if($days <= 5 && $days > 0 ){
+                            return ['class'=>'warning' ];
+                        }else if($diff <= 0){
+                            return ['class'=>'danger'];
+                        }
 
+                    },
                     'columns' => [
                         ['class' => 'yii\grid\SerialColumn'],
                         [
@@ -107,7 +123,7 @@ $this->title = 'List of Projects';
                                     $userid=Yii::$app->user->identity->getId();
                                     $usertest = User::findOne(['id'=>$userid]);
                                     if($usertest->userrole == 'Project Owner' || $usertest->userrole == 'System Admin'){
-                                        return Html::a('<span class="fa fa-search"></span>View',['project/update','id'=>$data->projectid]);
+                                        return Html::a('<span class="fa fa-pencil"></span>Update',['project/update','id'=>$data->projectid]);
                                     }
 
                                 },
@@ -115,7 +131,7 @@ $this->title = 'List of Projects';
                                     $userid=Yii::$app->user->identity->getId();
                                     $usertest = User::findOne(['id'=>$userid]);
                                     if($usertest->userrole == 'Project Owner' || $usertest->userrole == 'System Admin'){
-                                        return Html::a('<span class="fa fa-search"></span>View',['project/delete','id'=>$data->projectid]);
+                                        return Html::a('<span class="fa  fa-trash"></span>delete',['project/delete','id'=>$data->projectid]);
                                     }
 
                                 },

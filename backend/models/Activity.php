@@ -5,6 +5,8 @@ namespace backend\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use Empathy\Validators\DateTimeCompareValidator;
+
 /**
  * This is the model class for table "activity".
  *
@@ -41,7 +43,11 @@ class Activity extends \yii\db\ActiveRecord
         return [
             [[ 'activityname', 'activityplannedstartdate', 'activityplannedenddate', 'activityactualstartdate', 'activityactualenddate', 'activitystatus'], 'required'],
             [['projectid'], 'integer'],
-            [['activityplannedstartdate', 'activityplannedenddate', 'activityactualstartdate', 'activityactualenddate', 'creationdate'], 'safe'],
+
+            ['activityplannedstartdate', DateTimeCompareValidator::className(), 'compareAttribute' => 'activityplannedenddate', 'operator' => '<','message'=>'End Date could be less than Start Date'],
+            ['activityactualstartdate', DateTimeCompareValidator::className(), 'compareAttribute' => 'activityactualenddate', 'operator' => '<','message'=>'End Date could be less than Start Date'],
+
+            [[ 'creationdate'], 'safe'],
             [['activitystatus', 'comments'], 'string'],
             [['activityname', 'activitydescription'], 'string', 'max' => 255],
             [['projectid'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['projectid' => 'projectid']],
@@ -86,6 +92,7 @@ class Activity extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Task::className(), ['activityid' => 'activityid']);
     }
+
 
 
     public function beforeSave($insert)

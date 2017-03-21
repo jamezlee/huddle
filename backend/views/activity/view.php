@@ -5,6 +5,11 @@ use yii\widgets\DetailView;
 use backend\models\Project;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Activity */
+$session = Yii::$app->session;
+if ($session->has('projectid')){
+    unset($session['projectid']);
+
+}
 
 $this->title = $model->activityname;
 $this->params['breadcrumbs'][] = ['label' => 'Activities', 'url' => ['index']];
@@ -18,27 +23,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h1>Activity: <?= $model->activityname ?></h1>
 
                 <? $project = Project::findOne(['projectid'=>$model->projectid]);?>
-                <h2>Project related: <?=$project->projectname ?> </h2>
+                <h2>Project Name: <?=$project->projectname ?> </h2>
 
             </header>
             <div class="card">
                 <div class="row">
 
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    <?= Html::a('Update', ['update', 'id' => $model->activityid], ['class' => 'btn btn-primary']) ?>
-                                    <?= Html::a('Delete', ['delete', 'id' => $model->activityid], [
-                                        'class' => 'btn btn-danger',
-                                        'data' => [
-                                            'confirm' => 'Are you sure you want to delete this item?',
-                                            'method' => 'post',
-                                        ],
-                                    ]) ?>
-                                </p>
-                            </div>
-                        </div>
+
 
 
                         <div class="row">
@@ -88,6 +80,27 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-sm-12">
                                 <h3>Activity comment:</h3>
                                 <p><?= $model->comments ?></p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm-offset-6 text-right">
+                                <p>
+                                    <?= Html::a('Edit', ['update', 'id' => $model->activityid], ['class' => 'btn btn-primary']) ?>
+                                    <?= Html::a('Delete', ['delete', 'id' => $model->activityid], [
+                                        'class' => 'btn btn-danger',
+                                        'data' => [
+                                            'confirm' => 'Are you sure you want to delete this item?',
+                                            'method' => 'post',
+                                        ],
+                                    ]) ?>
+                                    <?=
+                                    Html::a('Add task', ['task/create'],['class'=>'btn btn-success']);
+                                    $sessionTask = Yii::$app->session;
+                                    $sessionTask->set('activityid',$model->activityid);
+
+                                    ?>
+                                </p>
                             </div>
                         </div>
                     </div>

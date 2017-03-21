@@ -15,18 +15,25 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-10">
             <div class="form-group">
                 <div class="top-search">
-                    <?= $form->field($model, 'globalTaskSearch')->label("")->textInput(['class'=>'top-search__input','placeholder'=>'search for task name / description / task status / user / Comment']) ?>
+                    <?= $form->field($model, 'globalTaskSearch')->label("")->textInput(['class'=>'top-search__input','placeholder'=>'search for Task Name']) ?>
                     <i class="zmdi zmdi-search top-search__reset"></i>
                 </div>
-                <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-                <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
 
 
             </div>
 
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <div class="btn-search">
+                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+
+                </div>
+
+            </div>
         </div>
 
     </div>

@@ -5,6 +5,11 @@ use yii\widgets\DetailView;
 use backend\models\User;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Task */
+$sessionTask = Yii::$app->session;
+if ($sessionTask->has('activityid')){
+    unset($sessionTask['activityid']);
+
+}
 
 $this->title = $model->taskname;
 $this->params['breadcrumbs'][] = ['label' => 'Tasks', 'url' => ['index']];
@@ -28,36 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>
-                                    <?
-                                    $userid=Yii::$app->user->identity->getId();
-                                    $userCurrent=User::findOne(['id'=>$userid]);
 
-                                    echo Html::a('Update', ['update', 'id' => $model->assignID], ['class' => 'btn btn-primary']) ?>
-
-
-                                    <?
-
-                                    if ($userCurrent->userrole=='Project Owner' || $userCurrent->userrole=='System Admin'){
-                                        echo Html::a('Delete', ['delete', 'id' => $model->assignID], [
-                                            'class' => 'btn btn-danger',
-                                            'data' => [
-                                                'confirm' => 'Are you sure you want to delete this item?',
-                                                'method' => 'post',
-                                            ],
-                                        ]);
-
-
-                                    }
-
-                                    ?>
-
-
-                                </p>
-                            </div>
-                        </div>
 
                         <div class="row">
                             <div class="col-md-12">
@@ -112,7 +88,36 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
 
                         </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <p>
+                                    <?
+                                    $userid=Yii::$app->user->identity->getId();
+                                    $userCurrent=User::findOne(['id'=>$userid]);
 
+                                    echo Html::a('Edit', ['update', 'id' => $model->assignID], ['class' => 'btn btn-primary']) ?>
+
+
+                                    <?
+
+                                    if ($userCurrent->userrole=='Project Owner' || $userCurrent->userrole=='System Admin'){
+                                        echo Html::a('Delete', ['delete', 'id' => $model->assignID], [
+                                            'class' => 'btn btn-danger',
+                                            'data' => [
+                                                'confirm' => 'Are you sure you want to delete this item?',
+                                                'method' => 'post',
+                                            ],
+                                        ]);
+
+
+                                    }
+
+                                    ?>
+
+
+                                </p>
+                            </div>
+                        </div>
 
 
                     </div>

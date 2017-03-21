@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3d78eece985c44c5f5d51acc902f854e",
+    "content-hash": "297bed8edf5d86dea90efafb79d24900",
     "packages": [
         {
             "name": "2amigos/yii2-ckeditor-widget",
@@ -648,6 +648,51 @@
                 "yii2-user"
             ],
             "time": "2017-01-11T20:26:20+00:00"
+        },
+        {
+            "name": "empathy/yii2-datetime-compare",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/empathy/yii2-datetime-compare.git",
+                "reference": "95b984d245f676b943cc2e4d0b0145391567549c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/empathy/yii2-datetime-compare/zipball/95b984d245f676b943cc2e4d0b0145391567549c",
+                "reference": "95b984d245f676b943cc2e4d0b0145391567549c",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/moment": "^2.11"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "Empathy\\Validators\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Anushan Easwaramoorthy",
+                    "email": "EAnushan@hotmail.com"
+                }
+            ],
+            "description": "DateTime comparison validator",
+            "homepage": "https://github.com/empathy/yii2-datetime-compare",
+            "keywords": [
+                "datetime",
+                "extension",
+                "form",
+                "plugin",
+                "widget",
+                "yii2"
+            ],
+            "time": "2016-02-24T06:08:25+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

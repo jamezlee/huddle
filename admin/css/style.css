@@ -1,14 +1,27 @@
-body{color:#ffffff!important;}
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{color:#fafafa!important;}
+
+a{color:#1e88e5!important}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{color:#2b3d51!important;}
+h1, .h1 {
+    font-size: 38px!important;
+}
+h2, .h2 {
+    font-size: 	30px!important;
+}
+h3, .h3 {
+    font-size: 	28px!important;
+}
+.btn{font-size:18px!important;}
+body:before { background-color: #e1e1e1!important;  }
+body {background-color: #f3f3f3!important; color:#2b3d51!important;font-size:16px!important }
+.card{background:#ffffff!important;}
+.navigation__menu ul a{color:#2b3d51!important;}
 
 .navigation__menu ul>li.navigation__active>a, .navigation__menu ul>li.active>a {
-    color: #edeff0;
+    color: #2b3d51;
     font-weight: 700;
 }
-.navigation__menu ul>li.active>a:hover{
-    color: #edeff0;
-    background:transparent;
-}
+.navigation__menu ul>li.active>a:hover{  color: #ffffff!important;  background:#64b0f2!important;  }
+.navigation__menu ul>li>a:hover{ color: #ffffff!important;  background:#64b0f2!important;  }
 .nav > li > a{padding: 0;}
 .nav > li > a:hover{background: transparent;}
 .jumbotron {
@@ -20,15 +33,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{color:#fafafa!important;}
     font-size: 21px;
     padding: 14px 24px;
 }
-.btn-search{padding-top:18px;}
+.btn{color:#FFFFFF!important;font-size:18px;}
+.btn-search{padding-top:28px;}
 .btn-search .btn{line-height:20px;font-size:18px;padding:15px 25px;}
-.top-search__reset{top:17px!important;}
-.top-search__input{ background-color: #ffffff!important;}
+.top-search__reset{top:26px!important;}
+.top-search__input{ background-color: #f3f3f3!important;height:55px!important;}
 #header{padding:20px 45px!important;margin-bottom:0px!important;}
-.dropdown-menu{background-color: #2b3942!important;}
-.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    background-color: transparent!important;
-    border-color: none;
+.dropdown-menu{background-color: #ffffff!important;}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {  background-color: transparent!important;  border-color: none;
 }
 .dropdown-menu.pull-right {
     right: auto!important;
@@ -39,9 +51,43 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{color:#fafafa!important;}
 .form-group{position:none!important;}
 .card{padding:20px 25px!important;}
 .panel-collapse .panel-title > a{display:inline-block!important;}
+.panel-collapse .panel-title .btn-success{padding:5px 15px!important;}
 .panel-collapse .panel-heading.active:before, .panel-collapse .panel-heading:before, .panel-collapse .panel-heading.active:after, .panel-collapse .panel-heading:after{cursor: pointer;z-index: 1;}
 .panel-body{margin-bottom: 15px;}
 .icon{padding:20px 5px!important;}
 .card__header, .card__body {padding: 30px 0px!important;}
-.black{color:#FFFFFF;}
+.black{color:#2b3d51;}
 .black:hover{color:#000000;}
+.list-wrapper h4 a{text-decoration: underline;color:#2980b9!important;}
+.list-wrapper h4 {color:#19B5FE!important;}
+.danger td a, .danger td,.warning td a, .warning td{color:#ffffff!important;font-weight: 800;}
+.danger a{text-decoration: underline;}
+.table a{text-decoration: underline;color:#2b3942!Important;}
+.table-bordered {border: 1px solid #eceeef!important;}
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td{border: 1px solid #eceeef!important;}
+.table > thead > tr > th{color: #3c444a!important;background-color: #d8d8d8;}
+.pagination > li > a, .pagination > li > span{ border-radius:0px!important;color:#2b3d51!important;font-size:17px!important; font-weight: 700;}
+textarea.cke_source{color:#000;}
+.form-group > label{font-size:18px!important;}
+.form-control{color:#2b3d51!important;transition: border-color e}
+.content__header > h2 > small{color:#2b3d51!important; opacity: 0.9; font-weight: 700;}
+.login__block{ background-color: #f3f3f3!important;}
+.login__block__header{background-color: #e1e1e1!important;}
+.login__block__header i {
+    font-size: 40px;
+    color: #2b3d51!important;
+}
+@media (max-width: 1279px){
+    #navigation{background:#f3f3f3!important;}
+    .navigation__header{background-color: #e1e1e1!important;}
+    .logo .logo__trigger{color:#2b3d51!important;}
+}
+
+@media (min-width: 768px) {
+    .login {
+        background-color: #e1e1e1!important;
+    }
+    .login:before {
+        background-color: #f3f3f3!important;
+    }
+}

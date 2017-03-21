@@ -20,26 +20,33 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => '<a class="navbar-brand" ><img src="'.Yii::$app->request->baseUrl.'/images/logo_huddle.png" /></a>',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar-default navbar-static-top',
         ],
     ]);
-    $menuItems = [
+
+
+    $menuItemleft = [
         ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'test', 'url' => ['/site/request-password']],
+        ['label' => 'About Us', 'url' => ['/site/about']],
+        ['label' => 'FAQ', 'url' => ['/site/faq']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
+
+
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = '<li><a href="admin/">Login</a></li>';
@@ -55,30 +62,48 @@ AppAsset::register($this);
             . '</li>';
     }
     echo Nav::widget([
+        'options' => ['class' => 'nav navbar-nav'],
+        'items' => $menuItemleft,
+    ]);
+
+    echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
     ]);
     NavBar::end();
     ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+
+
+
+
+<!--        --><?//= Breadcrumbs::widget([
+//            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+//        ]) ?>
+<!--        --><?//= Alert::widget() ?>
         <?= $content ?>
-    </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+
 
 <?php $this->endBody() ?>
+
+<div class="footer-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <ul>
+                    <li><?= html::a("Home",['/site/index'])?></li>
+                    <li><?= html::a("About Us",['/site/about'])?></li>
+                    <li><?= html::a("FAQ",['/site/about'])?></li>
+                    <li><?= html::a("Contact Us",['/site/contact'])?></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>
 <?php $this->endPage() ?>

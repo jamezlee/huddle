@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use backend\models\Activity;
 use backend\models\ActivitySearch;
+use backend\models\Task;
 use backend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -132,9 +133,20 @@ class ActivityController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $dataProviderT= Task::findAll(['activityid' => $id]);
+
+
+        if($dataProviderT){
+            Yii::$app->getSession()->setFlash('error', 'Unable to delete as there is Task still assign to user');
+            //Yii::$app->getSession()->setFlash('error', 'Unable to delete');
+            return $this->redirect(['index']);
+        }
+        else{
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+
     }
 
     /**

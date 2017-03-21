@@ -15,13 +15,27 @@ use dosamigos\ckeditor\CKEditor;
     <div class="card__body">
         <div class="row">
           <?php $form = ActiveForm::begin(); ?>
+
             <div class="col-sm-12">
                 <div class="form-group">
-                    <?= $form->field($model, 'projectid')->dropDownList(
-                        ArrayHelper::map(Project::find()->all(), 'projectid', 'projectname'),
-                        ['prompt'=>'Select Project to:']
 
-                    ) ?>
+
+                    <?
+                    $session = Yii::$app->session;
+                    $projectid = $session->get('projectid');
+
+                    if ($session->has('projectid')){
+                        echo  $form->field($model, 'projectid')->hiddenInput(['value' =>$projectid]);
+                        $projectName=Project::findOne(['projectid'=>$projectid]);
+                        echo'<h2>' .$projectName->projectname .'</h2>';
+                    }else{
+                        echo $form->field($model, 'projectid')->dropDownList(
+                            ArrayHelper::map(Project::find()->all(), 'projectid', 'projectname'),
+                            ['prompt'=>'Select Project to:']);
+
+                    }
+
+                    ?>
                 </div>
             </div>
 
@@ -42,45 +56,57 @@ use dosamigos\ckeditor\CKEditor;
 
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'activityplannedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
+            <div class="col-sm-12">
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'activityplannedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'activityplannedenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
             </div>
 
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'activityplannedenddate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
+            <div class="col-sm-12">
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'activityactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+
+                        </div>
                     </div>
 
-                </div>
-            </div>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'activityactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
 
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'activityactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'activityactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
+                        </div>
                     </div>
 
                 </div>
@@ -102,15 +128,17 @@ use dosamigos\ckeditor\CKEditor;
             </div>
 
 
-
+            <div class="col-sm-12 text-right">
+                <div class="form-group">
+                    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+                </div>
+            </div>
 
             <!--        --><?//= $form->field($model, 'creationdate')->textInput() ?>
 
 
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+
 
     <?php ActiveForm::end(); ?>
         </div>

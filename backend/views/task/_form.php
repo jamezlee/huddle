@@ -20,16 +20,32 @@ use dosamigos\ckeditor\CKEditor;
             <?php $form = ActiveForm::begin(); ?>
             <div class="col-sm-12">
                 <div class="form-group">
+
                     <?
+
+                    $sessionTask = Yii::$app->session;
+                    $activityid = $sessionTask->get('activityid');
+
                     $userid=Yii::$app->user->identity->getId();
                     $userCurrent=User::findOne(['id'=>$userid]);
 
-                    if($userCurrent->userrole=="System Admin" || $userCurrent->userrole=="Project Owner") {
-                        echo $form->field($model, 'activityid')->dropDownList(
-                            ArrayHelper::map(Activity::find()->all(), 'activityid', 'activityname'),
-                            ['prompt' => 'Select Activity']
 
-                        );
+
+
+                    if($userCurrent->userrole=="System Admin" || $userCurrent->userrole=="Project Owner") {
+                        if ($sessionTask->has('activityid')) {
+                            echo $form->field($model, 'activityid')->hiddenInput(['value' => $activityid]);
+                            $activityName= Activity::findOne(['activityid'=>$activityid]);
+                            echo'<h2>'. $activityName->activityname .'</h2>';
+                        }else{
+
+                            echo $form->field($model, 'activityid')->dropDownList(
+                                ArrayHelper::map(Activity::find()->all(), 'activityid', 'activityname'),
+                                ['prompt' => 'Select Activity']
+
+                            );
+                        }
+
                     }else{
                        $currentActivity= Activity::findOne(['activityid'=>$model->activityid]);
                         echo'<h5>Activity related:</h5>' .$currentActivity->activityname;
@@ -161,7 +177,7 @@ use dosamigos\ckeditor\CKEditor;
             </div>
 
 
-            <div class="col-sm-12">
+            <div class="col-sm-12 text-right">
                 <div class="form-group">
                     <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                 </div>

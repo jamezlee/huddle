@@ -177,8 +177,21 @@ class ProjectController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+
+       // $dataProviderP= Project::findAll(['projectid' => $id]);
+        $dataProviderT= Activity::findAll(['projectid' => $id]);
+
+
+        if($dataProviderT){
+            Yii::$app->getSession()->setFlash('error', 'Unable to delete Project as there is activity still assign to user');
+            //Yii::$app->getSession()->setFlash('error', 'Unable to delete');
+            return $this->redirect(['index']);
+        }
+
+        else {
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
     }
 
     /**

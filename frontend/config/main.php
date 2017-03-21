@@ -39,6 +39,7 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => false,
             'showScriptName' => true,
+            'baseUrl' => '@web',
             'rules' => [
 //                '<controller:\w+>/<id:\d+>' => '<controller>/view',
 //                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -50,6 +51,13 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'baseUrl' => 'admin',
+        ],
+
+        'urlManagerFrontEnd' => [
+            'class' => 'yii\web\UrlManager',
+            'baseUrl' => '@web',
+            'enablePrettyUrl' => false,
+            'showScriptName' => true,
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

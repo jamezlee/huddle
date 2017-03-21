@@ -11,13 +11,23 @@ $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-request-password-reset">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out your email. A link to reset password will be sent there.</p>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <img src="<?=  Yii::$app->request->baseUrl ?>/images/logo_huddle_large.png"  width="100%" class="img-reponsive"/>
+                <h3><?= Html::encode($this->title) ?></h3>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <br>
+                <p>Please fill out your email. A link to reset password will be sent there.</p>
+                <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 
                 <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
 
@@ -25,7 +35,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
                 </div>
 
-            <?php ActiveForm::end(); ?>
+                <?php ActiveForm::end(); ?>
+            </div>
+
         </div>
     </div>
+
+
+
+
 </div>

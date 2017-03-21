@@ -17,10 +17,14 @@ use \yii\db\Query;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 
-$this->title = 'Tasks';
+$this->title = 'List of Tasks';
 $this->params['breadcrumbs'][] = $this->title;
 
+$sessionTask = Yii::$app->session;
+if ($sessionTask->has('activityid')){
+    unset($sessionTask['activityid']);
 
+}
 ?>
 <div class="task-index">
     <div class="card">
@@ -96,7 +100,44 @@ $this->params['breadcrumbs'][] = $this->title;
                         // 'taskfile',
                         // 'comments:ntext',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+
+                        ['class' => 'yii\grid\ActionColumn',
+                            'header'=>'Actions',
+                            'template' => '{view} {update} {delete} ',
+                            'visibleButtons'=>[
+//                                'view' => [
+//                                    $usertest->userrole == 'System Admin' ,
+//                                    ],
+                                'view' => function ($data) {
+                                    $userid=Yii::$app->user->identity->getId();
+                                    $usertest = User::findOne(['id'=>$userid]);
+                                    //if($usertest->userrole == 'Project Owner' || $usertest->userrole == 'System Admin'){
+                                        return Html::a('<span class="fa fa-search"></span>View',['task/view','id'=>$data->assignID]);
+                                    //}
+
+                                },
+                                'update' => function ($data) {
+                                    $userid=Yii::$app->user->identity->getId();
+                                    $usertest = User::findOne(['id'=>$userid]);
+                                    //if($usertest->userrole == 'Project Owner' || $usertest->userrole == 'System Admin'){
+                                        return Html::a('<span class="fa fa-pencil"></span>update',['task/update','id'=>$data->assignID]);
+                                    //}
+
+                                },
+                                'delete' => function ($data) {
+                                    $userid=Yii::$app->user->identity->getId();
+                                    $usertest = User::findOne(['id'=>$userid]);
+                                    if($usertest->userrole == 'Project Owner' || $usertest->userrole == 'System Admin'){
+                                        return Html::a('<span class="fa fa-search"></span>View',['task/delete','id'=>$data->assignID]);
+                                    }
+
+                                },
+
+
+
+                            ],
+
+                        ],
                     ],
                 ]);
 

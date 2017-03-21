@@ -58,6 +58,7 @@ class User extends ActiveRecord
             ['username', 'required'],
             ['firstname', 'required'],
             ['lastname', 'required'],
+            ['userrole', 'required'],
             ['username', 'unique', 'targetClass' => '\backend\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             ['email', 'trim'],
@@ -67,6 +68,7 @@ class User extends ActiveRecord
             ['email', 'unique', 'targetClass' => '\backend\models\User', 'message' => 'This email address has already been taken.'],
             ['jobtitle','required'],
             ['description','string'],
+            ['userrole','string'],
             ['jobtitle','string','min' => 2,'max'=>50],
             ['password_hash', 'required'],
             ['password_hash', 'string', 'min' => 6],
@@ -237,16 +239,14 @@ class User extends ActiveRecord
                // $this->email=$getOldEmail;
                 $oldpassword =$this->password_hash;
 
-                if($this->repeatnewpass==$this->password_hash){
+                if($this->repeatnewpass!=null){
                     $this->setPassword($this->repeatnewpass);
                 }
                 else{
                     $this->repeatnewpass=$oldpassword;
-                    $this->setPassword($oldpassword);
+                    //$this->setPassword($oldpassword);
 
                 }
-
-
 
                 $this->updated_at = new Expression('NOW()');
             }

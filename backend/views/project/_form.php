@@ -39,46 +39,56 @@ use \yii\helpers\FileHelper;
                 </div>
             </div>
 
-
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'projectplannedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'projectplannedstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'projectplannedenddate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'projectactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'projectplannedenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'projectactualstartdate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="col-sm-6">
-                <div class="input-group">
-                    <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
-                    <div class="form-group">
-                        <?= $form->field($model, 'projectactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
-                        <i class="form-group__bar"></i>
+
+                    <div class="col-sm-6">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <div class="form-group">
+                                <?= $form->field($model, 'projectactualenddate')->textInput(['class'=>'form-control date-picker']) ?>
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
+
 
 
 
@@ -117,7 +127,7 @@ use \yii\helpers\FileHelper;
                 </div>
             </div>
 
-            <div class="col-sm-12">
+            <div class="col-sm-12 text-right">
                 <div class="form-group">
                     <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
                 </div>

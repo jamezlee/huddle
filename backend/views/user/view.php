@@ -38,6 +38,8 @@ $this->title = $model->username;
 
                         <h3>Description</h3>
                         <p><?= $model->description ?></p>
+                        <h3>User role</h3>
+                        <p><?= $model->userrole ?></p>
                         <h3>Joined since</h3>
                         <p><?= $model->created_at ?></p>
                         <h3>Last Update</h3>

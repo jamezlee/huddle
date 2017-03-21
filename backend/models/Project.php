@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use yii\db\ActiveRecord;
+use Empathy\Validators\DateTimeCompareValidator;
 /**
  * This is the model class for table "project".
  *
@@ -44,7 +45,12 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [[ 'projectname', 'projectclassification', 'projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'userid', 'projectstatus'], 'required'],
-            [['projectplannedstartdate', 'projectplannedenddate', 'projectactualstartdate', 'projectactualenddate', 'creationdate','projectfile','newfile'], 'safe'],
+            [[  'projectactualstartdate', 'projectactualenddate', 'creationdate','projectfile','newfile'], 'safe'],
+
+            ['projectplannedstartdate', DateTimeCompareValidator::className(), 'compareAttribute' => 'projectplannedenddate', 'operator' => '<','message'=>'enter less than planned end date'],
+            ['projectactualstartdate', DateTimeCompareValidator::className(), 'compareAttribute' => 'projectactualenddate', 'operator' => '<','message'=>'enter less than Actual end date'],
+
+
             [['newfile'],'file'],
             [['userid'], 'integer'],
             [['projectstatus', 'comments'], 'string'],
@@ -91,9 +97,17 @@ class Project extends \yii\db\ActiveRecord
         return $this->hasOne(Activity::className(), ['projectid' => 'projectid']);
     }
 
+    public function validateDates()
+    {
+        if(strtotime($this->projectplannedenddate) <= strtotime($this->projectplannedstartdate)){
+
+            return true;
+        }
+    }
 
     public function beforeSave($insert)
     {
+       // $this->validateDates();
         if (parent::beforeSave($insert)) {
             if ($this->isNewRecord) {
                 $this->creationdate = new Expression('NOW()');

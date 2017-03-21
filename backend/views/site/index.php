@@ -43,9 +43,12 @@ if ( $currentUser->userrole=="Project Owner") {
         echo '<div class="col-md-4 text-center">
             <div class="card">';
                 $time = new DateTime('now');
-                $today=$time->format('Y-m-d');
+                $fdate = new DateTime('now');
+                $fdate->modify('+5 day');
 
-                    $overdueProject = Project::find()->where(['COUNT(*)'])->where(['userid' => $userID])->andWhere(['>=', 'projectactualenddate', $today])->andWhere(['projectstatus' => 'Inprocess'])->all();
+                $today=$time->format('Y-m-d');
+                $fdate=$time->format('Y-m-d');
+                    $overdueProject = Project::find()->where(['COUNT(*)'])->where(['userid' => $userID])->andWhere(['<=', 'projectactualenddate', $today])->andWhere(['projectstatus' => 'Inprocess'])->all();
                     echo '<h3> Project Overdue</h3>
                         <h2>'
 
@@ -54,6 +57,28 @@ if ( $currentUser->userrole=="Project Owner") {
 
 
             echo '</div>
+
+        </div>';
+        }
+        else if($currentUser->userrole=="User"){
+        echo '<div class="col-md-4 text-center">
+        <div class="card">';
+        $time = new DateTime('now');
+            $fdate = new DateTime('now');
+            $fdate->modify('+5 day');
+
+        $today=$time->format('Y-m-d');
+            $fdate=$time->format('Y-m-d');
+
+        $overdueTask = Task::find()->where(['COUNT(*)'])->where(['userid' => $userID])->andWhere(['<=', 'taskactualenddate', $today])->andWhere(['taskstatus' => 'Inprocess'])->all();
+        echo '<h3> Task Overdue</h3>
+                        <h2>'
+
+            . count($overdueTask) . '</h2>';
+
+
+
+        echo '</div>
 
         </div>';
         }
@@ -88,7 +113,32 @@ if ( $currentUser->userrole=="Project Owner") {
 
         </div>
     </div>';
-        }
+        }else if ( $currentUser->userrole=="User") {
+        echo' <div class="col-md-4 text-center">
+            <div class="card">';
+
+        $inproProject = Task::findAll(['taskstatus'=>'Inprocess','userid'=>$userID]);
+        echo'<h3> Open Project</h3>
+                        <h2>'
+            .count($inproProject) .'</h2>';
+
+
+        echo' </div>
+
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="card">';
+
+        $completeProject = Task::findAll(['taskstatus'=>'Completed','userid'=>$userID]);
+        echo'<h3> Closed Project </h3>
+                        <h2>'
+            .count($completeProject) . '</h2>';
+
+
+        echo'</div>
+
+        </div>
+    </div>';}
 ?>
     <?php
     if ( $currentUser->userrole=="Project Owner") {
@@ -191,12 +241,30 @@ if ( $currentUser->userrole=="Project Owner") {
         <div class="col-md-12">
             <div class="card">
                 <h3>Task Related to Member</h3>';
-                $query2s =Task::find()->where(['activityid'=>$dataarrays]);
-                $dataTaskProvider =new ActiveDataProvider([
-                    'query'  => $query2s,
-                    'pagination'=>false,
-                        'sort'=>false,
-                ]);
+                $query1s = Activity::find()->from(['project', 'activity'])->where('project.projectid=activity.projectid')->andWhere(['project.userid' => $userID])->all();
+
+                 if($query1s){
+                    foreach ($query1s as $query1) {
+                    $dataarrays[] = $query1->activityid;
+                    }
+
+                    $query2s =Task::find()->where(['activityid'=>$dataarrays]);
+                     $dataTaskProvider =new ActiveDataProvider([
+                         'query'  => $query2s,
+                         'pagination'=>false,
+                         'sort'=>false,
+                     ]);
+                }else{
+
+                     $query2s =Task::find()->where(['activityid'=>0]);
+                     $dataTaskProvider =new ActiveDataProvider([
+                         'query'  => $query2s,
+                         'pagination'=>false,
+                         'sort'=>false,
+                     ]);
+                 }
+              
+
 
                 echo GridView::widget([
                     'dataProvider' => $dataTaskProvider,
@@ -247,7 +315,7 @@ if ( $currentUser->userrole=="Project Owner") {
                         'taskactualenddate',
                         'taskdescription:html',
 
-                        ['class' => 'yii\grid\ActionColumn'],
+                       // ['class' => 'yii\grid\ActionColumn'],
                     ],
                     'summary'=>'Task',
                 ]);

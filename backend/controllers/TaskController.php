@@ -60,7 +60,6 @@ class TaskController extends Controller
     {
         $searchModel = new TaskSearch();
         $searchActivity = new ActivitySearch();
-
         $getUser=User::findOne(['id'=>\Yii::$app->user->identity->id]);
 
 
@@ -71,9 +70,17 @@ class TaskController extends Controller
         if($getUser->userrole=="Project Owner"){
 
             $query1s= Activity::find()->from(['project','activity'])->where('project.projectid=activity.projectid')->andWhere(['project.userid' => \Yii::$app->user->identity->id])->all();
-            foreach($query1s as $query1){
-                $dataarrays[]=$query1->activityid ;
+            if($query1s){
+
+                foreach($query1s as $query1){
+                    $dataarrays[]=$query1->activityid ;
+                }
+
+            }else{
+                $dataarrays[]=0;
+
             }
+
             //$dataActivityProvider = $searchActivity->search(Yii::$app->request->queryParams);
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             $dataProvider->query->andWhere(['activityid'=>$dataarrays]);

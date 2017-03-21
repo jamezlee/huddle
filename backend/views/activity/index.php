@@ -13,18 +13,24 @@ use yii\data\ActiveDataProvider;
 /* @var $searchModel backend\models\ActivitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Activities';
+$this->title = 'List of Activities';
 $this->params['breadcrumbs'][] = $this->title;
+
+$session = Yii::$app->session;
+if ($session->has('projectid')){
+    unset($session['projectid']);
+
+}
 ?>
 <div class="activity-index">
     <div class="card">
         <div class="card__header">
 
             <h1><?= Html::encode($this->title) ?></h1>
+            <?= Alert::widget() ?>
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             <?php Pjax::begin();?>
             <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
-
             <p>
                 <?= Html::a('Create Activity', ['create'], ['class' => 'btn btn-success']) ?>
             </p>
