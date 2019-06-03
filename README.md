@@ -1,20 +1,13 @@
-Yii 2 Advanced Project Template
+Project Management Web App
 ===============================
+This project was done for final year school degree project using Yii2 Advanced template, PHP.
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Get Started
+===============================
+Install wamap(windows) / MAMP(Mac), running with PHP and MySQL
+Using existing database, to database folder and import the SQL file
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
-
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-advanced/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-advanced/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-advanced)
 
 DIRECTORY STRUCTURE
 -------------------
