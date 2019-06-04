@@ -7,7 +7,9 @@ Get Started
 Install wamap(windows) / MAMP(Mac), running with PHP and MySQL
 Using existing database, to database folder and import the SQL file
 
-
+Example
+===============================
+http://ceto.murdoch.edu.au/~team62/huddle/ - note it may not be exist cause it is school network
 
 DIRECTORY STRUCTURE
 -------------------
